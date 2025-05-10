@@ -6,6 +6,6 @@
 ### Wikoooo: Gestora e engenheira principal do projeto
 ### Carolaxt: Designer e segunda gestora do projeto
 ### Jujobs: Designer e programadora front-end do projeto
-### Biapiacente: Programadora front-end principal do projeto
+### BiaOlivMar: Programadora front-end principal do projeto
 
 ## Tecnologias:
