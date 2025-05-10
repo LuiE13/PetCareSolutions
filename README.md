@@ -9,3 +9,7 @@
 ### BiaOlivMar: Programadora front-end principal do projeto
 
 ## Tecnologias:
+![Java](https://img.shields.io/badge/JAVA-FF7514?style=for-the-badge&logoColor=black)
+![MySQL](https://img.shields.io/badge/MySQL-1572B6?style=for-the-badge&logo=mysql&logoColor=white)
+![Kotlin](https://img.shields.io/badge/KOTLIN-FF7514?style=for-the-badge&logoColor=black)
+🤖IA(planejando)
