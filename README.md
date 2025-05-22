@@ -4,11 +4,11 @@
 
 ## Integrantes
 
+### BiaOlivMar: Designer e programadora front-end do projeto [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/user/repo/blob/branch/other_file.md)
+### Carolaxt: Designer e co-gestora do projeto
+### Jujobs: Designer e programadora back-end do projeto
 ### LuiE13: Programador back-end e engenheiro do projeto
 ### Wikoooo: Gestora e engenheira principal do projeto
-### Carolaxt: Designer e segunda gestora do projeto
-### Jujobs: Designer e programadora front-end do projeto
-### BiaOlivMar: Programadora front-end principal do projeto
 
 ## Tecnologias:
 
