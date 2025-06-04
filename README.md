@@ -4,7 +4,7 @@
 
 ## Integrantes
 
-### BiaOlivMar: Designer e programadora front-end do projeto [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/user/repo/blob/branch/other_file.md)
+### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [BiaOlivMar](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
 ### Carolaxt: Designer e co-gestora do projeto
 ### Jujobs: Designer e programadora back-end do projeto
 ### LuiE13: Programador back-end e engenheiro do projeto
@@ -14,7 +14,7 @@
 
 ### Linguagens:
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
@@ -28,7 +28,7 @@
 
 ### IDE's e gerenciadores de pacote
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Android Studio]([https://img.shields.io/badge/android%20studio-346ac1](https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png)?style=for-the-badge&logo=android%20studio&logoColor=white)
+![Android Studio](https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white)
 
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
