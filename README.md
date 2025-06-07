@@ -4,11 +4,11 @@
 
 ## Integrantes
 
-### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [BiaOlivMar](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
-### Carolaxt: Designer e co-gestora do projeto
-### Jujobs: Designer e programadora back-end do projeto
-### LuiE13: Programador back-end e engenheiro do projeto
-### Wikoooo: Gestora e engenheira principal do projeto
+###  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" width="30" height="30">: Designer e programadora front-end do projeto 
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github.svg" alt="GitHub" width="30" height="30">: Designer e co-gestora do projeto
+### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [LuiE13](https://github.com/LuiE13): Designer e programadora back-end do projeto
+### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [LuiE13](https://github.com/LuiE13): Programador back-end e engenheiro do projeto
+### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [Wiko](https://github.com/Wikoooo): Gestora e engenheira principal do projeto
 
 ## Tecnologias:
 
