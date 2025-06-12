@@ -4,11 +4,11 @@
 
 ## Integrantes
 
-###  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" width="30" height="30">: Designer e programadora front-end do projeto 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github.svg" alt="GitHub" width="30" height="30">: Designer e co-gestora do projeto
-### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [LuiE13](https://github.com/LuiE13): Designer e programadora back-end do projeto
-### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [LuiE13](https://github.com/LuiE13): Programador back-end e engenheiro do projeto
-### ![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [Wiko](https://github.com/Wikoooo): Gestora e engenheira principal do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Ana Júlia do Prado](https://github.com/jujobs): Designer e programadora back-end do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Bia](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Carolina Valença](https://github.com/carolaxt): Designer e co-gestora do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [LuiE13](https://github.com/LuiE13): Programador back-end e engenheiro do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Wiko](https://github.com/Wikoooo): Gestora e engenheira principal do projeto
 
 ## Tecnologias:
 
@@ -44,10 +44,13 @@
 
 ### Portabilidade para:
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
-![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)
+
+### Comunicação:
 ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
 ![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
 ![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)
 
+### Tecnologias:
+![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)
