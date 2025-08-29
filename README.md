@@ -2,6 +2,8 @@
 
 ## Projeto de TCC do curso técnico em desenvolvimento de sistemas equipe 05
 
+alterar tecnologias
+
 ## Integrantes
 
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Ana Júlia do Prado](https://github.com/jujobs): Designer e programadora back-end do projeto
