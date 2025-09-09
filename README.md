@@ -2,11 +2,10 @@
 
 ## Projeto de TCC do curso técnico em desenvolvimento de sistemas equipe 05
 
-alterar tecnologias
 
 ## Integrantes
 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Ana Júlia do Prado](https://github.com/jujobs): Designer e programadora back-end do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Anna Júlia do Prado](https://github.com/jujobs): Designer e programadora back-end do projeto
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Bia](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Carolina Valença](https://github.com/carolaxt): Designer e co-gestora do projeto
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [LuiE13](https://github.com/LuiE13): Programador back-end e engenheiro do projeto
@@ -15,32 +14,51 @@ alterar tecnologias
 ## Tecnologias:
 
 ### Linguagens:
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white)
-![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+|     | Icone                         | Usado para:                                                                                                                                                                   |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white) | Programação do alimentador automatico                                                                         |
+| 2   | ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) | Desenvolvimento da API de comunicação com servidor, aplicação e alimentador    |
+| 3   | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | Utilização e modelagem dos prompts para a IA                                                         |
+| 4   | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) | Linguagem principal para o desenvolvimento do aplicativo                           |
+
 
 ### IA:
-![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)
+
+|     | Icone                         | Usado para:                                                                                                                                                                    |
+| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white) | Criação de um chatbot dentro do app, além de outras funcionalidades menores   |
 
 ### Banco de dados e servidor:
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![Maven](https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white)
-![Apache](https://img.shields.io/badge/apache-%23D42029.svg?style=for-the-badge&logo=apache&logoColor=white)
+
+|     | Icone                         | Usado para:                                                                                                                                                                     |
+| :-: | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) | Sistema gerenciador do banco                                                                           |
+| 2   | ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white) | Hospedagem da API                                                                                  |
+| 3   | ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) | Gerenciador do dados localmente na aplicação, para funcionamento sem inthernet                   |
+
 
 ### IDE's e gerenciadores de pacote
-![Android Studio](https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white)
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
-### Versionamento:
-![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+|     | Icone                         | Usado para:                                                                                                                                                                   |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) | Desenvolvimento da aplicação e da API                     |
+
+
+### Versionamento e organização:
+|     | Icone                         | Usado para:                                                                                                                                                                   |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) | Controle de versão local                                                                                |
+| 2   | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) | Contole de versão e armazenamento em nuvem                                                     |
+| 3   | ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) | Contole de ponto, metas, calendario                                                            |
+
 
 ### Design:
-![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
-![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white)
+|     | Icone                         | Usado para:                                                                                                                                                                   |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) | Prototipagem de alta                                                             |
+| 2   | ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) | Desenvolvimento da API de comunicação com servidor, aplicação e alimentador                       |
+
 
 ### Portabilidade para:
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
