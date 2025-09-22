@@ -1,18 +1,53 @@
 import {  View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { Input } from '@/components/input';
 import { router } from 'expo-router';
+import { Usuario } from "@/objects/usuario";
 
 export default function Entre() {
+    let email: string = "", senha: string = "";
+    function entrar(Email: string, Senha: string) {
+        if (Email === "" || Senha === "") {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+        if(Email.indexOf("@") === -1 || Email.indexOf(".") === -1) {
+            alert("Por favor, insira um email válido.");    
+            return;
+        }
+        const usuario = new Usuario( Email, Senha);
+        const logou = usuario.login();
+        logou.then((res) => {
+            if(res.status == 400){
+                alert("Dados incompletos.");
+                return;
+            }
+            if(res.status == 404){
+                alert("Email ou senha incorretos.");
+                return;
+            }
+            if(res.status == 500){
+                alert("Erro no servidor. Tente novamente mais tarde.");
+                return;
+            }
+            alert("Login realizado com sucesso! Bem-vindo(a) ");
+            router.navigate('/home');
+            return;
+        });
+    }
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={require('../assets/images/logoColor.png')} />
             <Text style={styles.title}>Login</Text>
-            <Input placeholder="Email:" />
-            <Input placeholder="Senha:" secureTextEntry />
+            <Input placeholder="Email:" onChangeText={(text)=>{
+                email = text
+            }}/>
+            <Input placeholder="Senha:" secureTextEntry onChangeText={(text)=>{
+                senha = text
+            }}/>
             <TouchableOpacity style={styles.esquece} activeOpacity={0.9} onPress={() => router.navigate('/esqueceu')}>
                 <Text style={styles.esqueceText}>Esqueceu a senha?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} activeOpacity={0.9} onPress={() => router.navigate('/home')}>
+            <TouchableOpacity style={styles.button} activeOpacity={0.9} onPress={() => entrar(email, senha)}>
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
             <Text style={styles.text}>ou</Text>

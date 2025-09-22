@@ -1,16 +1,45 @@
-import {  View, TouchableOpacity, Text, Image, StyleSheet} from "react-native";
+import {  View, TouchableOpacity, Text, Image, StyleSheet, Pressable,} from "react-native";
 import { Input } from '@/components/input';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Usuario } from "@/objects/usuario";
 import { navigate } from "expo-router/build/global-state/routing";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import {useCreatePersister} from 'tinybase/ui-react';
+import{ createStore } from "tinybase";
+import * as sqlite from "expo-sqlite";
+import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite";
 
 
 
 
 export default function Cadastro() {
     let name: string = "", email: string = "", senha: string = "", confirmaSenha: string = "", data_nascimento: string = "";
+    
+    const store = createStore();
+    const db = sqlite.openDatabaseSync('petcare.db');
+    const persister = createExpoSqlitePersister(store, db);
+    useCreatePersister(
+        store, 
+        //@ts-ignore    
+        persister,
+        [],
+        (persister)=>{persister.load().then(persister.startAutoSave)}
+    );
+
+    store.getTable('usuarios')
+    store.setRow('usuarios', 'user'+(store.getRowCount("usuarios") + 1), {
+        
+        name: name,
+        email: email,
+        senha: senha,
+        confirmaSenha: confirmaSenha,
+        data_nascimento: data_nascimento
+    })
+
+   
+
+    
     function Cadastrar(Name: string, Email: string, Senha: string, ConfirmaSenha: string, Data_nascimento: string) {
    
         if (Name === "" || Email === "" || Senha === "" || ConfirmaSenha === "" || Data_nascimento === "") {
@@ -37,8 +66,8 @@ export default function Cadastro() {
             alert("As senhas não coincidem!");
             return;
         }
-        const usuario = new Usuario( Name, Email, Senha, new Date(Data_nascimento));
-        const resposta = usuario.register();
+        const usuario = new Usuario(  Email, Senha, Name, new Date(Data_nascimento));
+        const resposta = usuario.register()
         resposta.then((res) => {
             if (res == 400) {
                 alert("Dados incompletos.");
@@ -65,24 +94,28 @@ export default function Cadastro() {
             <Text style={styles.title}>Cadastro</Text>
             <Input placeholder="Nome" onChangeText={(txt) =>{
                 name = txt
-                console.log(name)
+                
                 }}/>
-            <Input placeholder="Email" onChangeText={(txt) => {
+            <Input autoCapitalize="none" keyboardType="email-address" placeholder="Email" onChangeText={(txt) => {
                 email = txt
-                console.log(email)
+                
                 }}/>
-            <Input placeholder="Senha" onChangeText={(txt) =>{
+            <Input autoCapitalize="none" placeholder="Senha" onChangeText={(txt) =>{
                 senha = txt
-                console.log(senha)
+                
                 }} secureTextEntry />
-            <Input placeholder="Confirme a senha" onChangeText={(txt) =>{
+            <Input autoCapitalize="none" placeholder="Confirme a senha" onChangeText={(txt) =>{
                 confirmaSenha = txt
-                console.log(confirmaSenha)
+                
                 }} secureTextEntry />
-            <Input placeholder="Data de nascimento: ex: 2008-10-29" autoComplete="birthdate-full" onChangeText={(txt) =>{
-                data_nascimento = txt
-                console.log(data_nascimento)
-                }} />
+
+          
+
+            <Input keyboardType="numeric" placeholder="Data de nascimento: ex: 2008/10/29" autoComplete="birthdate-full" onChangeText={(txt) =>{
+                data_nascimento = txt.replaceAll("/", "-");
+                
+            }} />
+          
             <TouchableOpacity style={styles.button} activeOpacity={0.9}  onPress={() => Cadastrar(name, email, senha, confirmaSenha, data_nascimento)}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>

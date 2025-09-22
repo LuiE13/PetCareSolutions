@@ -1,5 +1,5 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import { Input } from '@/components/input';
+import { Input } from '../components/input';
 import { router } from 'expo-router';
 
 export default function Entre() {

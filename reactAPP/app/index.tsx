@@ -7,7 +7,7 @@ export default function Index() {
     const [name, setName] = useState("")
 
     function entrar() {
-        router.navigate('/entre');
+        router.navigate('/home');
     }
     function cadastrar() {
         router.navigate('/cadastro');
