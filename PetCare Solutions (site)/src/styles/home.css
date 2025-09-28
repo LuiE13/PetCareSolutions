@@ -1,0 +1,114 @@
+#home {
+    display: flex;
+    align-items: center;           
+    justify-content: space-between;
+    min-height: calc(100vh - 89px);
+    width: 100%;
+    gap: 20px;
+    padding-left: 5%;
+    padding-right: 0;
+}
+
+#texInicio {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+#texInicio .title {
+    font-size: 55px;
+    font-family: "Qilka";
+    color: #EEBD2A;
+}
+
+#texInicio .apresentacao {
+    font-size: 26px;
+    font-family: "TT2";
+    line-height: 1.4;
+}
+
+.banner {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;    
+    align-items: center;
+}
+
+.banner img {
+    width: 100%;                  
+    max-width: 500px;             
+    height: auto;
+    object-fit: contain; 
+    
+}
+
+.ban2 {
+    display: none;
+}
+
+
+/* A parte responisiva aqui*/
+
+@media screen and (max-width: 1170px) {
+    #home {
+        padding-top: 0;
+        margin: 0;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        padding: 1px;
+        height: 100vh;
+    }
+
+    #texInicio {
+        width: 100%;
+        text-align: center;
+        align-items: center;
+    }
+
+    #texInicio .title {
+        font-size: 38px;
+    }
+
+    .banner {
+        display: none;
+    }
+
+    .ban2 {
+        background-image: url("../../img/meninoC2.svg");
+        width: 100%;
+        height: 300px;
+    }
+
+    .apresentacao {
+        margin-top: 300px;
+    }  
+}
+
+/*Celulares menores*/
+@media screen and (max-width: 322px) {
+    #home {
+        padding-top: 0;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+   .ban2 img {
+    display: none;
+   }
+
+    #texInicio .title {
+        font-size: 34px;
+    }
+
+    #texInicio .title {
+        font-size: 35px;
+    }
+
+    .apresentacao {
+        margin-top: 0px;
+    } 
+}

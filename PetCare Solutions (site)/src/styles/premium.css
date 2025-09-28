@@ -1,0 +1,42 @@
+#premium {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: row; /* Coloca as divs #gat e #servs lado a lado */
+    align-items: center; /* Centraliza verticalmente */
+    gap: 50px;
+    background-color: #FE5F55;
+}
+
+#oTexto {
+    margin-left: 40px;    
+}
+
+.oCome {
+    margin-right: 40px;
+}
+
+#premium img {
+    height: 500px;
+}
+
+#premium h2 {
+    color: #EFEFEF;
+}
+
+#premium p {
+    color: #EFEFEF;
+    font-size: 20px;
+}
+
+.val p{
+    font-family: TT3;
+    text-align: center;
+    font-size: large;
+}
+
+#premium p span {
+    font-size: 100px;
+    text-align: center;
+}

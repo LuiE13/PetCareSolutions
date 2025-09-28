@@ -1,0 +1,82 @@
+header {
+    width: 100%;
+    padding: 22px 5%;
+    
+}
+
+#navega {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#lisNavega {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.item-nav a {
+    text-decoration: none;
+    color: #523E8F;
+    font-size: 25px;
+}
+
+.item-nav.active a {
+    color: #625097;
+    border-bottom: 3px solid #F2C438;
+}
+
+#btn-mobile {
+    display: none;
+}
+
+#mobileMenu {
+    display: none;
+}
+
+@media screen and (max-width: 1170px) {
+    #lisNavega,
+    #navega .btn-app {
+        display: none;
+    }
+    #btn-mobile {
+        display: block;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    #mobileMenu.active{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #mobile_lisNavega {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 28px 0px;
+    }
+
+    #mobile_lisNavega .item-nav {
+        list-style: none;
+        text-align: center;
+    }
+
+    #navega .logo1 {
+    height: 45px;
+    }
+
+    #butMenu{
+        height: 28px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    #navega {
+        min-height: 100%;
+    }
+}

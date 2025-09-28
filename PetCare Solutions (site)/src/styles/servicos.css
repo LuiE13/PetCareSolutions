@@ -1,0 +1,52 @@
+#servicos {
+    height: 100vh;
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 50px; 
+}
+
+#gat {
+    flex: 1; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+}
+
+#gat h2 {
+    margin-bottom: 20px; 
+}
+
+#gat img {
+    max-height: 80vh;
+    width: auto;
+}
+
+#servs {
+    flex: 1; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 30px; 
+}
+
+.servBox {
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+}
+
+.servBox img {
+    width: 60px; 
+    height: auto;
+}
+
+.servBox p,
+#servs > div:first-child p {
+    font-size: 18px;
+    margin: 0;
+}

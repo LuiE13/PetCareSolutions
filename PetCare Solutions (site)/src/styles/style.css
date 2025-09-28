@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+@font-face {
+  font-family: "Qilka"; /* Nome da fonte que será usada no CSS */
+  src: url("../../fontes/Qilka/Qilka-Bold.ttf");
+}
+
+@font-face {
+    font-family: "TT1";
+    src: url("../../fontes/Lalala/TT\ Rounds\ Neue\ Trial\ Condensed\ Light.ttf");
+}
+
+@font-face {
+    font-family: "TT2";
+    src: url("../../fontes/Lalala/TT\ Rounds\ Neue\ Trial\ Medium.ttf");
+}
+
+@font-face {
+    font-family: "TT3";
+    src: url("../../fontes/Lalala/TT\ Rounds\ Neue\ Trial\ Bold.ttf");
+}
+
+
+* {
+    font-family: "TT1", regular;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #EFEFEF;
+    color: #2E2935;
+}
+
+section{
+    padding: 22px 5%;
+}
+
+.logo1 {
+    height: 45px;
+}
+
+.btn-app {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #805BEF;
+    color: #FFFAEF;
+    border-radius: 16px;
+    padding: 15px 20px;
+    font-weight: 700;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color .3s ease;
+}
+
+.btn-app:hover {
+    background-color: #a78df7;
+}
