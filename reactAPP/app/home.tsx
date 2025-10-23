@@ -1,32 +1,59 @@
 import { ScrollView, View, Text ,StyleSheet, TouchableOpacity, FlatList, TouchableWithoutFeedback, Image,ImageBackground} from "react-native";
-import {router} from 'expo-router';
-import {useCreatePersister} from 'tinybase/ui-react';
-import{ createStore } from "tinybase";
-import * as sqlite from "expo-sqlite";
-import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite";
-
-
+import {router , Link} from 'expo-router';
+import { useDatabase } from "@/database/useDatabase";
+import { useState, useEffect} from "react";
+import { Usuario } from "@/objects/usuario";
+import { Pet } from "@/objects/pet";
 
 
 export default function Home() {
-    const store = createStore();
-    const db = sqlite.openDatabaseSync('petcare.db');
-    const persister = createExpoSqlitePersister(store, db);
+    const [pets, setPet] = useState<Pet[]>(); 
+    const [tela,setTela] = useState()
+    const [userName, setUserName] = useState("usuario")
+    const usuario = new Usuario('','');
+    const db = useDatabase()
+    async function carregarInfos(){
+       await db.getUser().then((dado)=> {
+            dado.map((user)=>{
+                usuario.Id_usuario = user.Id_Usuario
+                usuario.nome = user.Nome
+                usuario.email = user.Email 
+                usuario.senha = user.Senha 
+                usuario.dataNascimento = user.Data_Nascimento
+                usuario.fotoPerfil = user.Foto
+                usuario.premium = user.Premium
+                usuario.notificacoes = user.Notificacao
+                usuario.tema = user.Tema
+                usuario.idioma = user.Idioma
+                
+            })
+        })
+        await usuario.getPets()
+        setUserName(usuario.nome||"")
+        setPet(usuario.pets)   
+    }
+
+    function sair() { 
+        db.sair()
+        router.replace("/")
+    }
+
+
     return(
-        <View style={styles.tela}>
+        <View onLayout={carregarInfos} style={styles.tela}>
             <View style={{width: "100%", height: 85, alignItems: "center"}}>
                 <View style={styles.topBarShadow} />
                 <View style={styles.topBar}>
                     <View>
                         <Text style={styles.pagTitle}>
-                            Olá, {store.getCell('usuario', 'info', 'nome')?store.getCell('usuario', '1', 'nome'):"Usuário"}!
+                            Olá, {userName}!
                         </Text>
                         <Text>
                             Todo cuidado em um so lugar...
                         </Text>
                     </View>
-                    <TouchableWithoutFeedback >
-                        <Image style={styles.perfil} source={require("../assets/images/user.png")}></Image>
+                    <TouchableWithoutFeedback onPress={sair}>
+                        <Image style={styles.perfil} source={require("@/assets/images/user.png")}></Image>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
@@ -53,23 +80,23 @@ export default function Home() {
                 <FlatList
                     style={styles.petList}
                     horizontal
-                    data={[{id: '1', name: 'Rex',sexo:"macho",especie:"Cachorro"}, {id: '2', name: 'Luna',sexo:"femea",especie:"Gato"}, {id: '3', name: 'Max',sexo:"macho",especie:"Cachorro"}]}
-                    keyExtractor={item => item.id}
+                    data={pets}
+                    keyExtractor={item => String(item.id)}
                     renderItem={({ item }) => (
-                        <TouchableOpacity activeOpacity={1} style={[styles.petItem]}>
-                            <Image style={styles.imageItem} source={(item.especie=="Cachorro"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                        <Link href={{pathname : "/pet", params : {id : item.id}}} style={[styles.petItem]}>
+                            <Image style={styles.imageItem} source={(item.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
                             <View style={{flexDirection:"row", alignItems:"center",width:"90%"}}>
-                                <Text style={{fontSize:20,color:"#000000",fontWeight:"bold"}}>{item.name}</Text>
-                                <Image style={styles.imageSexoItem} source={(item.sexo=="macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}></Image>
+                                <Text style={{fontSize:20,color:"#000000",fontWeight:"bold"}}>{item.nome}</Text>
+                                <Image style={styles.imageSexoItem} source={(item.genero=="macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}></Image>
                             </View>
                             <Text style={{color:"#686868ff",width:"90%",marginBottom:15}}>{item.especie}</Text>
-                        </TouchableOpacity>
+                        </Link>
                     )}
                     showsHorizontalScrollIndicator={false}
                     ListFooterComponent={
                         <View style={styles.addPet}>
                             <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={() => router.push('/cadastroPet')}>
-                                <Image style={{height:40,width:40}} source={require("../assets/images/add.png")}></Image>
+                                <Image style={{height:40,width:40}} source={require("@/assets/images/add.png")}></Image>
                             </TouchableOpacity>
                             <Text style={{fontSize:20,color:"#000000"}}>Adicionar Pet</Text>
                         </View>
@@ -88,22 +115,22 @@ export default function Home() {
             
             <View style={styles.navbar}>
                 <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("../assets/images/forum.png")}></Image>
+                    <Image style={styles.pata} source={require("@/assets/images/forum.png")}></Image>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("../assets/images/pet.png")}></Image>
+                    <Image style={styles.pata} source={require("@/assets/images/pet.png")}></Image>
                 </TouchableWithoutFeedback>
                 <View style={styles.here}>
                     <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                        <Image style={styles.pata} source={require("../assets/images/home.png")}></Image>
+                        <Image style={styles.pata} source={require("@/assets/images/home.png")}></Image>
                     </TouchableWithoutFeedback>
                 </View>
                 
                 <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("../assets/images/premium.png")}></Image>
+                    <Image style={styles.pata} source={require("@/assets/images/premium.png")}></Image>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("../assets/images/chatbot.png")}></Image>
+                    <Image style={styles.pata} source={require("@/assets/images/chatbot.png")}></Image>
                 </TouchableWithoutFeedback>
             </View>
             
@@ -114,7 +141,6 @@ export default function Home() {
 const styles = StyleSheet.create({
     tela:{
         gap:50,
-        alignItems:"center",
         backgroundColor:"#FFFFFF",
         height:"100%",
     },
@@ -204,8 +230,8 @@ const styles = StyleSheet.create({
         height:250,
         width:200,
         backgroundColor:"#FFFFFF",
-        justifyContent:"center",
-        alignItems:"center",
+        flex:1,
+        padding:10,
         elevation: 10,
         shadowColor: '#000000ff',
         borderRadius:20,
@@ -213,7 +239,7 @@ const styles = StyleSheet.create({
     },
     imageItem:{
         height:"70%",
-        width:"90%",
+        width:"100%",
         borderRadius:20,
         marginBottom:10,
     },

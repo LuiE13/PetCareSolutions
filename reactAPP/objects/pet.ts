@@ -1,4 +1,6 @@
 import { Usuario } from "./usuario";
+import{ createStore } from "tinybase";
+import * as sqlite from "expo-sqlite";
 
 class Pet{
     id?: number;
@@ -8,11 +10,12 @@ class Pet{
     peso: number
     cor: string;
     porte: string;
+    especie : string;
     genero: string;
     donoId: number;
     photo?: string;
 
-    constructor(nome: string, dataNasc: Date, raca: string, peso: number, cor: string, porte: string, genero: string, donoId: number){
+    constructor(especie : string,nome: string, dataNasc: Date, raca: string, peso: number, cor: string, porte: string, genero: string, donoId: number){
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.raca = raca;
@@ -21,8 +24,7 @@ class Pet{
         this.porte = porte;
         this.genero = genero;
         this.donoId = donoId;
-        const usuario = new Usuario("","","",new Date());
-        usuario.addPet(this);
+        this.especie =especie
     }
 
     public async register(): Promise<number> {
@@ -40,7 +42,8 @@ class Pet{
                 Cor: this.cor,
                 Porte: this.porte,
                 Genero: this.genero,
-                Id_dono: this.donoId
+                Id_dono: this.donoId,
+                Especie: this.especie
             })
         }).then(response => {
             if (response.status == 400) {
@@ -56,6 +59,7 @@ class Pet{
         })
         return resposta;
     }
+    
 }
 
 export { Pet }

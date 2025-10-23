@@ -2,8 +2,10 @@ import {  View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { Input } from '@/components/input';
 import { router } from 'expo-router';
 import { Usuario } from "@/objects/usuario";
+import { useDatabase } from "@/database/useDatabase";
 
 export default function Entre() {
+    const db = useDatabase()
     let email: string = "", senha: string = "";
     function entrar(Email: string, Senha: string) {
         if (Email === "" || Senha === "") {
@@ -15,24 +17,28 @@ export default function Entre() {
             return;
         }
         const usuario = new Usuario( Email, Senha);
-        const logou = usuario.login();
+        const logou = usuario.login()
         logou.then((res) => {
-            if(res.status == 400){
+            if(res == 400){
                 alert("Dados incompletos.");
                 return;
             }
-            if(res.status == 404){
+            if(res == 404){
                 alert("Email ou senha incorretos.");
                 return;
             }
-            if(res.status == 500){
+            if(res == 500){
                 alert("Erro no servidor. Tente novamente mais tarde.");
                 return;
             }
-            alert("Login realizado com sucesso! Bem-vindo(a) ");
-            router.navigate('/home');
+            db.create(usuario)
+            alert("Login realizado com sucesso! Bem-vindo(a) " + usuario.nome);
+            router.replace("/home")
+            
             return;
         });
+        
+       
     }
     return (
         <View style={styles.container}>

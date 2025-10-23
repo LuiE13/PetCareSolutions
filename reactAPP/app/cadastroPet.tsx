@@ -1,19 +1,16 @@
-import { View , Text, TouchableOpacity, Image, ScrollView, StyleSheet, Pressable} from "react-native";
+import { View , Text, TouchableOpacity, Image, Button, StyleSheet, Pressable} from "react-native";
 import { Input } from "@/components/input";
-import DropdownComponent from "@/components/dropdowncomponent";
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from "expo-router";
 import { useState, useEffect } from "react";
 import { Usuario } from "@/objects/usuario";
 import{ Pet } from "@/objects/pet";
-import {useCreatePersister} from 'tinybase/ui-react';
-import{ createStore } from "tinybase";
 import * as sqlite from "expo-sqlite";
 
-import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite";
 
 const data = [
     { label: 'Labrador Retriever', value: 'labrador' },
+    { label: 'Vira-lata', value: 'vira_lata' },
     { label: 'Pastor Alemão', value: 'german_shepherd' },
     { label: 'Golden Retriever', value: 'golden_retriever' },
     { label: 'Bulldog', value: 'bulldog' },
@@ -25,47 +22,31 @@ const data = [
     { label: 'Salcicha', value: 'dachshund' },
     { label: 'Dálmata', value: 'dalmatian' },
     { label: 'Doberman', value: 'doberman' },
-    { label: 'Shih Tzu', value: 'shih_tzu' },
-    { label: 'Cocker Spaniel', value: 'cocker_spaniel' },
     { label: 'Maltês', value: 'maltese' },
     { label: 'Chihuahua', value: 'chihuahua' },
     { label: 'Pug', value: 'pug' },
     { label: 'Schnauzer', value: 'schnauzer' },
     { label: 'Buldogue Francês', value: 'french_bulldog' },
     { label: 'Buldogue Inglês', value: 'english_bulldog' },
-    { label: 'Lhasa Apso', value: 'lhasa_apso' },
     { label: 'Corgi', value: 'corgi' },
     { label: 'Akita', value: 'akita' },
     { label: 'Saint Bernard', value: 'saint_bernard' },
-    { label: 'Bichon Frisé', value: 'bichon_frise' },
     { label: 'Bull Terrier', value: 'bull_terrier' },
-    { label: 'West Highland White Terrier', value: 'west_highland_white_terrier' },
     { label: 'Spaniel Anão Continental', value: 'papillon' },
-    { label: 'Cavalier King Charles Spaniel', value: 'cavalier_king_charles_spaniel' },
-    { label: 'Chow Chow', value: 'chow_chow' },
     { label: 'Shar Pei', value: 'shar_pei' },
-    { label: 'Pastor Australiano', value: 'australian_shepherd' },
     { label: 'Basset Hound', value: 'basset_hound' },
     { label: 'Bloodhound', value: 'bloodhound' },
     { label: 'Bullmastiff', value: 'bullmastiff' },
     { label: 'Cane Corso', value: 'cane_corso' },
-    { label: 'Dogue Alemão', value: 'great_dane' },
     { label: 'Samoyeda', value: 'samoyed' },
-    { label: 'Husky Siberiano', value: 'siberian_husky' },
     { label: 'Vizsla', value: 'vizsla' },
     { label: 'Weimaraner', value: 'weimaraner' },
     { label: 'Westie', value: 'westie' },
-    { label: 'Airedale Terrier', value: 'airedale_terrier' },
     { label: 'Basenji', value: 'basenji' },
-    { label: 'Belgian Malinois', value: 'belgian_malinois' },
-    { label: 'Border Collie', value: 'border_collie' },
-    { label: 'Boston Terrier', value: 'boston_terrier' },
     { label: 'Brittany Spaniel', value: 'brittany_spaniel' },
     { label: 'Cairn Terrier', value: 'cairn_terrier' },
-    { label: 'Chinese Shar-Pei', value: 'chinese_shar_pei' },
     { label: 'Chow Chow', value: 'chow_chow' },
     { label: 'Clumber Spaniel', value: 'clumber_spaniel' },
-    { label: 'Collie', value: 'collie' },
     { label: 'Pembroke Welsh Corgi', value: 'pembroke_welsh_corgi' },
     { label: 'Siberian Husky', value: 'siberian_husky' },
     { label: 'Australian Shepherd', value: 'australian_shepherd' },
@@ -79,10 +60,8 @@ const data = [
     { label: 'Shetland Sheepdog', value: 'shetland_sheepdog' },
     { label: 'Brittany', value: 'brittany' },
     { label: 'English Springer Spaniel', value: 'english_springer_spaniel' },
-    { label: 'Bernese Mountain Dog', value: 'bernese_mountain_dog' },
     { label: 'Cocker Spaniel', value: 'cocker_spaniel' },
     { label: 'Mastiff', value: 'mastiff' },
-    { label: 'Vizsla', value: 'vizsla' },
     { label: 'Newfoundland', value: 'newfoundland' },
     { label: 'Border Collie', value: 'border_collie' },
     { label: 'Rhodesian Ridgeback', value: 'rhodesian_ridgeback' },
@@ -182,22 +161,7 @@ export default function CadastroPet() {
         );
         }
         return null;
-    }
-
-    const db = sqlite.openDatabaseSync('petcare.db');
-    const store = createStore();
-    const persister = createExpoSqlitePersister(store, db);
-    useCreatePersister(
-        store, 
-        //@ts-ignore
-        persister,
-        [],
-        (persister)=>{persister.load().then(persister.startAutoSave)}
-    );
-
-    store.getTable('pets')
-
-    
+    }  
 
     function cadastrarPet() {
         if (nome === "" || dataNasc === "" || raca === "" || peso === "" || cor === "" || porte === "" || genero === "") {
@@ -212,29 +176,11 @@ export default function CadastroPet() {
         const day = Number(separetedDate[2]);
         const month = Number(separetedDate[1]);
         const year = Number(separetedDate[0]);
-        if (day > 31 || day <= 0 || month > 12 || month <= 0 || year > new Date().getFullYear() || year > 1980) {
+        if (day > 31 || day <= 0 || month > 12 || month <= 0 || year > new Date().getFullYear() || year < 1900) {
             alert("Por favor, insira uma data de nascimento válida no formato DD/MM/AAAA.");
             return;
         }
-        const novoPet = new Pet(nome, new Date(dataNasc), raca, Number(peso), cor, porte, genero, Number(store.getRow('usuarios', 'user1')?.id));
-        novoPet.register().then((resposta) => {
-            if (resposta === 400) {
-                alert("Erro no cadastro. Por favor, verifique os dados e tente novamente.");
-                return;
-            }
-            if (resposta === 500) {
-                alert("Erro no servidor. Por favor, tente novamente mais tarde.");
-                return;
-            }
-            store.getTable('pets')
-            store.setRow('pets', String(novoPet.id), {nome: novoPet.nome, raca: novoPet.raca, peso: novoPet.peso, cor: novoPet.cor, porte: novoPet.porte, genero: novoPet.genero, donoId: novoPet.donoId})
-            alert("Pet cadastrado com sucesso!");
-            router.push('/home');
-            alert("Pet cadastrado com sucesso!");
-            router.push('/home');
-        });
         
-       
         return;
     }
 
@@ -242,20 +188,20 @@ export default function CadastroPet() {
         <View style={styles.container}>
             <>
                 <TouchableOpacity style={{position: 'absolute', top: 40, left: 20}} activeOpacity={0.9} onPress={() => router.back()}>
-                    <Image style={{height:30,width:30}} source={require('../assets/images/arrowleft.png')} />
+                    <Image style={{height:30,width:30}} source={require('@/assets/images/arrowleft.png')} />
                 </TouchableOpacity>
-                <Image style={styles.image} source={require("../assets/images/logoColor.png")} />
+                <Image style={styles.image} source={require("@/assets/images/logoColor.png")} />
                 <Text style={styles.title}>Cadastre seu Pet</Text>
                 <View style={styles.outros }>
                     <Pressable style={[styles.imgeButton,  (especie == "Cachorro") && {backgroundColor:'#b19eebff'}]} onPress={() => 
                         setEspecieValue('Cachorro')
                         }>
-                        <Image style={styles.img} source={require('../assets/images/dog.png')} />
+                        <Image style={styles.img} source={require('@/assets/images/dog.png')} />
                     </Pressable>
                     <Pressable style={[styles.imgeButton,  (especie == "Gato") && {backgroundColor:'#b19eebff'}]} onPress={() => 
                         setEspecieValue('Gato')
                         }>
-                        <Image style={[styles.img,{marginLeft:6}]} source={require('../assets/images/cat.png')} />
+                        <Image style={[styles.img,{marginLeft:6}]} source={require('@/assets/images/cat.png')} />
                     </Pressable>
                 </View>
                 {/* Formulário de cadastro */}
@@ -263,13 +209,19 @@ export default function CadastroPet() {
                     setNome(txt);
                     
                     }}/>
-                <Input keyboardType="numeric" placeholder="Data de nascimento: ex: 29/10/2008" onChangeText={(txt) => {
-                    txt = txt.replace('/', '-');
-                  
+                <Input placeholder="Data de Nascimento: ex: 2008/10/29" onChangeText={(txt) =>{
+                    txt = txt.replace("/", '');
+                    if (txt.length > 8) {
+                        txt = txt.slice(0, 8);
+                    }
+                    if (txt.length > 4) {
+                        txt = txt.slice(0, 4) + '-' + txt.slice(4);
+                    }
+                    if (txt.length > 7) {
+                        txt = txt.slice(0, 7) + '-' + txt.slice(7);
+                    }
                     setDataNasc(txt);
-                    
-                    
-                    }}/>
+                }}/>
                 <View style={styles.container2}>
                     {renderRacaLabel()}
                     <Dropdown
@@ -316,7 +268,7 @@ export default function CadastroPet() {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!porteIsFocus ? 'Selecione o porte' : '...'}
+                        placeholder={!porteIsFocus ? 'Selecione o porte' : '@.'}
                         value={porteValue}
                         onFocus={() => setPorteIsFocus(true)}
                         onBlur={() => setPorteIsFocus(false)}

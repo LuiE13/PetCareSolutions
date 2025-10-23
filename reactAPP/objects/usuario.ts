@@ -1,15 +1,22 @@
+import{ createStore } from "tinybase";
+import * as sqlite from "expo-sqlite";
+import { useCreatePersister } from "tinybase/ui-react";
+import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite"
+import { Pet } from "./pet";
+import { useDatabase } from "@/database/useDatabase";
+
 class Usuario {
     public Id_usuario: number | undefined
     public nome: string | undefined
-    public email: string | undefined
-    public senha: string | undefined
+    public email: string 
+    public senha: string 
     public dataNascimento: Date | undefined
     public fotoPerfil?: string
     public premium: boolean = false
     public notificacoes: boolean = true
     public tema: string = "Claro"
     public idioma: string = 'Portugues'
-    public pets?: any[]
+    public pets?: Pet[]
 
 
     constructor(  Email: string , Senha: string ,Nome?: string , Data_nascimento?: Date) {
@@ -37,46 +44,59 @@ class Usuario {
         }).then(response => {
             if (response.status == 400) {
                 resposta = 400;
+                return
             }
             if(response.status == 409){
                 resposta = 409;
+                return
             }
             if (response.status == 500) {
                 resposta = 500;
+                return
             }
-            return response.json().then(data => {   
-                this.Id_usuario = data.Id_usuario;
-            })
-            
-            
-
         })
-        return resposta;
+        await this.login()
+        return resposta
     }
 
-    public login(): Promise<any> {
-        const dados = fetch("https://api-rest-comedouro-2poss.onrender.com/usuario/login?Email="+this.email+"&Senha="+this.senha,{
+    public async login(): Promise<number> {
+        var resposta = 0
+        await fetch("https://api-rest-comedouro-2poss.onrender.com/usuario/login?Email="+this.email+"&Senha="+this.senha,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response =>response.json())
-            .then(jsonBody=>{
-                jsonBody.results.map((item:any)=>{
-                    this.Id_usuario = item.Id_usuario
-                    this.nome = item.Nome
-                    this.email = item.Email
-                    this.senha = item.Senha
-                    this.dataNascimento = new Date(item.Data_nascimento)
-                    this.fotoPerfil = item.Foto_perfil
-                    this.premium = item.Premium
-                    this.notificacoes = item.Notificacoes
-                    this.tema = item.Tema
-                    this.idioma = item.Idioma
-                })
-                return jsonBody
-            })
-        return dados
+        }).then(response =>{
+            if (response.status == 400) {
+                resposta = 400;
+                return
+            }
+            if(response.status == 404){
+                resposta = 404;
+                return
+            }
+            if (response.status == 500) {
+                resposta = 500;
+                return
+            }
+            
+            return response.json()
+        }).then(jsonBody=>{
+            if (jsonBody) {
+                this.Id_usuario = jsonBody.Id_Usuario
+                this.nome = jsonBody.Nome
+                this.email = jsonBody.Email 
+                this.senha = jsonBody.Senha 
+                this.dataNascimento = jsonBody.Data_Nascimento
+                this.fotoPerfil = jsonBody.Foto
+                this.premium = jsonBody.Premium
+                this.notificacoes = jsonBody.Notificacao
+                this.tema = jsonBody.Tema
+                this.idioma = jsonBody.Idioma
+            }
+            
+        })
+        return resposta
     }   
     public update(): Promise<Response> {
         const dados = fetch("https://api-rest-comedouro-2poss.onrender.com/usuario/atualizar",{
@@ -107,6 +127,32 @@ class Usuario {
             this.pets = [pet]
         }   
     }
+    
+    public async getPets(){
+         await fetch("https://api-rest-comedouro-2poss.onrender.com/pet/meuspets/"+this.Id_usuario,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response=>{
+            if (response.status == 400) {
+                return
+            }
+            if(response.status == 404){
+                return
+            }
+            if (response.status == 500) {
+                return
+            }
+            return response.json()
+        }).then(dados=>{
+            dados.map((pet:any)=>{
+                
+                const animal = new Pet(pet.Especie,pet.Nome,pet.data_nascimento,pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
+                animal.id = pet.id_pet
+                this.addPet(animal)
+            })
+        })
+    }
 }
-
 export { Usuario };

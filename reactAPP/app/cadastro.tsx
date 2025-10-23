@@ -1,45 +1,15 @@
 import {  View, TouchableOpacity, Text, Image, StyleSheet, Pressable,} from "react-native";
 import { Input } from '@/components/input';
 import { router } from 'expo-router';
-import { useState, useEffect } from 'react';
 import { Usuario } from "@/objects/usuario";
-import { navigate } from "expo-router/build/global-state/routing";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import {useCreatePersister} from 'tinybase/ui-react';
-import{ createStore } from "tinybase";
-import * as sqlite from "expo-sqlite";
-import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite";
+import { useDatabase } from "@/database/useDatabase";
 
 
 
 
 export default function Cadastro() {
     let name: string = "", email: string = "", senha: string = "", confirmaSenha: string = "", data_nascimento: string = "";
-    
-    const store = createStore();
-    const db = sqlite.openDatabaseSync('petcare.db');
-    const persister = createExpoSqlitePersister(store, db);
-    useCreatePersister(
-        store, 
-        //@ts-ignore    
-        persister,
-        [],
-        (persister)=>{persister.load().then(persister.startAutoSave)}
-    );
-
-    store.getTable('usuarios')
-    store.setRow('usuarios', 'user'+(store.getRowCount("usuarios") + 1), {
-        
-        name: name,
-        email: email,
-        senha: senha,
-        confirmaSenha: confirmaSenha,
-        data_nascimento: data_nascimento
-    })
-
-   
-
-    
+    const db = useDatabase()
     function Cadastrar(Name: string, Email: string, Senha: string, ConfirmaSenha: string, Data_nascimento: string) {
    
         if (Name === "" || Email === "" || Senha === "" || ConfirmaSenha === "" || Data_nascimento === "") {
@@ -66,7 +36,7 @@ export default function Cadastro() {
             alert("As senhas não coincidem!");
             return;
         }
-        const usuario = new Usuario(  Email, Senha, Name, new Date(Data_nascimento));
+        const usuario = new Usuario(Email, Senha, Name, new Date(Data_nascimento));
         const resposta = usuario.register()
         resposta.then((res) => {
             if (res == 400) {
@@ -81,8 +51,9 @@ export default function Cadastro() {
                 alert("Erro no servidor. Tente novamente mais tarde.");
                 return;
             }
+            db.create(usuario)
             alert("Cadastro realizado com sucesso!");
-            router.navigate('/home');
+            router.replace('/home');
             return;
         });       
         

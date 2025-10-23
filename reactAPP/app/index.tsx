@@ -1,19 +1,25 @@
 import { useState } from 'react';
 import {  View, Text , StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { router } from 'expo-router';
+import { useDatabase } from "@/database/useDatabase";
 
 export default function Index() {
     // Example of using useState hook
-    const [name, setName] = useState("")
-
+    const db = useDatabase();
     function entrar() {
-        router.navigate('/home');
+        router.navigate('/entre');
+    }
+    async function checaLogin() {
+        const result = await db.getUser();
+        if (result.length > 0) {
+            router.replace('/home');
+        }
     }
     function cadastrar() {
         router.navigate('/cadastro');
     }
     return (
-        <View style={styles.conteiner}>
+        <View onLayout={checaLogin}style={styles.conteiner}>
             <Image style={styles.image} source={require("../assets/images/logoColor.png")} />
             <Text style={styles.title}>Bem-vindo!</Text>
             <Text style={styles.title}>Seu pet em boas patas.</Text>
