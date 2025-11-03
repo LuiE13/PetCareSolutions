@@ -34,7 +34,7 @@
 |     | Icone                         | Usado para:                                                                                                                                                                     |
 | :-: | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 1   | ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) | Sistema gerenciador do banco                                                                           |
-| 2   | ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white) | Hospedagem da API                                                                                  |
+| 2   | ![Render]([https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)) | Hospedagem da API  |
 | 3   | ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) | Gerenciador do dados localmente na aplicação, para funcionamento sem inthernet                   |
 
 
@@ -51,25 +51,33 @@
 | 1   | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) | Controle de versão local                                                                                |
 | 2   | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) | Contole de versão e armazenamento em nuvem                                                     |
 | 3   | ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) | Contole de ponto, metas, calendario                                                            |
+| 4   | ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white) | Armazenamento dos artefatos do projeto (Prototipos, modelos, referencias, etc)      |
 
 
 ### Design:
 |     | Icone                         | Usado para:                                                                                                                                                                   |
 | :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) | Prototipagem de alta                                                             |
-| 2   | ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) | Desenvolvimento da API de comunicação com servidor, aplicação e alimentador                       |
+| 1   | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) | Prototipagem de alta                                                                              |
+| 2   | ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) | Slides para apresentação do projeto, criação de logos                                             |
 
 
 ### Portabilidade para:
-![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+|     | Icone                         | Especificações:                                                                                                                                                               |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) | Android 35, Build Nativa                                                             |
+| 2   | ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)             | Sem build Nativa                  |
+ 
+
 
 ### Comunicação:
-![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)
-![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
-![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
-![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)
+|     | Icone                         | Usado para:                                                                                                                                                                                             |
+| :-: | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2   | ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)          | Chamadas online para desenvolvimento de tarefas que necessitavam varios colaboradores, ou reuniões online    |
+| 3   | ![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)              | Comunicação via chat de mensagens e envio de documentos de um colaborador para o outro                       |
+
 
 ### Tecnologias:
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
 ![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)
