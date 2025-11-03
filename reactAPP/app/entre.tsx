@@ -34,7 +34,6 @@ export default function Entre() {
             db.create(usuario)
             alert("Login realizado com sucesso! Bem-vindo(a) " + usuario.nome);
             router.replace("/home")
-            
             return;
         });
         

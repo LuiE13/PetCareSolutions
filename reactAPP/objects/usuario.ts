@@ -1,9 +1,7 @@
-import{ createStore } from "tinybase";
-import * as sqlite from "expo-sqlite";
-import { useCreatePersister } from "tinybase/ui-react";
-import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite"
+
+import { use } from "react";
 import { Pet } from "./pet";
-import { useDatabase } from "@/database/useDatabase";
+
 
 class Usuario {
     public Id_usuario: number | undefined
@@ -129,6 +127,7 @@ class Usuario {
     }
     
     public async getPets(){
+        
          await fetch("https://api-rest-comedouro-2poss.onrender.com/pet/meuspets/"+this.Id_usuario,{
             method: 'GET',
             headers: {
@@ -151,6 +150,7 @@ class Usuario {
                 const animal = new Pet(pet.Especie,pet.Nome,pet.data_nascimento,pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
                 animal.id = pet.id_pet
                 this.addPet(animal)
+                
             })
         })
     }

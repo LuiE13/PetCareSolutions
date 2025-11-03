@@ -27,7 +27,11 @@
       "favicon": "./assets/icons/favicon.png"
     },
     "plugins": [
-      "expo-sqlite"
+      "expo-sqlite",
+      ["expo-custom-assets",
+        {
+          "assetsPaths": ["./assets/animation"]
+      }]
     ],
     "experiments": {
       "typedRoutes": true

@@ -17,72 +17,75 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     `)
     await database.execAsync(`
         CREATE TABLE IF NOT EXISTS alimentador (
-            id_Alimentador int(11) PRIMARY KEY NOT NULL,
-            id_pet int(11) NOT NULL,
-            Id_Usuario int(11) NOT NULL,
+            id_Alimentador interger PRIMARY KEY NOT NULL,
+            id_pet interger NOT NULL,
+            Id_Usuario interger NOT NULL,
             tipo_raçao text,
-            Gramagem int(11) NOT NULL,
+            Gramagem interger NOT NULL,
             ultima_refeicao datetime,
-            intervalo_horas int(11) NOT NULL DEFAULT '6',
+            intervalo_horas interger NOT NULL DEFAULT '6',
             Ra_Extra tinyint(1) DEFAULT '0'
         );
     `)
     await database.execAsync(`
         CREATE TABLE IF NOT EXISTS chatperguntas (
-            id_chatPerguntas int(11) PRIMARY KEY NOT NULL,
-            Id_Usuario int(11),
-            id_pet int(11),
+            id_chatPerguntas interger PRIMARY KEY NOT NULL,
+            Id_Usuario interger,
+            id_pet interger,
             conteudo text
         );`)
     await database.execAsync(`
         CREATE TABLE IF NOT EXISTS compromissos (
-            id_compromissos int(11) PRIMARY KEY NOT NULL,
-            id_pet int(11) NOT NULL,
-            Id_Usuario int(11) NOT NULL,
+            id_compromissos interger PRIMARY KEY NOT NULL,
+            id_pet interger NOT NULL,
+            Id_Usuario interger NOT NULL,
             titulo varchar(150),
             descricao text,
             Data date NOT NULL,
             horario time
-        );
+        )`);
+    await database.execAsync(`
         CREATE TABLE IF NOT EXISTS likes (
-            Id_likes int(11) PRIMARY KEY NOT NULL,
-            Id_Usuario int(11),
-            Id_post int(11)
-        );
+            Id_likes interger PRIMARY KEY NOT NULL,
+            Id_Usuario interger,
+            Id_post interger
+        );`);
+    await database.execAsync(`
         CREATE TABLE IF NOT EXISTS pet (
-            id_pet int(11) PRIMARY KEY NOT NULL,
-            Id_Usuario int(11) NOT NULL,
+            Id_pet interger PRIMARY KEY NOT NULL,
+            Id_Usuario interger NOT NULL,
             Nome varchar(100) NOT NULL,
             Especie text NOT NULL,
-            data_nascimento date NOT NULL,
+            Data_nascimento date ,
             Raca varchar(100),
             Peso decimal(5,2),
             Cor varchar(50),
             Porte text NOT NULL,
-            descricao_saude text,
-            foto blob NOT NULL,
-            sexo text NOT NULL DEFAULT 'macho'
-        );
+            Descricao_saude text,
+            Foto blob,
+            Sexo text NOT NULL DEFAULT 'macho'
+        );`)
+    await database.execAsync(`
         CREATE TABLE IF NOT EXISTS postagens (
-            Id_post int(11) PRIMARY KEY NOT NULL,
-            Id_Usuario int(11) NOT NULL,
+            Id_post interger PRIMARY KEY NOT NULL,
+            Id_Usuario interger NOT NULL,
             Titulo varchar(100),
             Conteudo text,
-            likes int(11),
+            likes interger,
             DataPost date
         );
         CREATE TABLE IF NOT EXISTS vacinas (
-            Id_vacinas int(11) PRIMARY KEY NOT NULL,
-            id_usuario int(11),
-            id_pet int(11),
+            Id_vacinas interger PRIMARY KEY NOT NULL,
+            id_usuario interger,
+            id_pet interger,
             nomeVac varchar(100)
         );
         CREATE TABLE IF NOT EXISTS respostas (
-            Id_respostas int(11) PRIMARY KEY NOT NULL,
-            Id_Usuario int(11) NOT NULL,
-            Id_post int(11) NOT NULL,
+            Id_respostas interger PRIMARY KEY NOT NULL,
+            Id_Usuario interger NOT NULL,
+            Id_post interger NOT NULL,
             Conteudo text,
-            likes int(11),
+            Likes interger,
             DataPost date
         )
     `)

@@ -4,12 +4,15 @@ import { useDatabase } from "@/database/useDatabase";
 import { useState, useEffect} from "react";
 import { Usuario } from "@/objects/usuario";
 import { Pet } from "@/objects/pet";
+import LoadCat from "@/components/loadcat";
 
 
 export default function Home() {
     const [pets, setPet] = useState<Pet[]>(); 
-    const [tela,setTela] = useState()
+    var firstPet =0;
+    var nextPet =0;
     const [userName, setUserName] = useState("usuario")
+    const [isLoading, setIsLoading] = useState(true);
     const usuario = new Usuario('','');
     const db = useDatabase()
     async function carregarInfos(){
@@ -29,9 +32,24 @@ export default function Home() {
             })
         })
         await usuario.getPets()
+        usuario.pets?.forEach(async(pet)=>{
+            
+            if(firstPet==0){
+                firstPet = Number(pet.id)
+                
+                nextPet = firstPet
+            }
+            if(nextPet==firstPet && pet.id!=firstPet){
+                nextPet = Number(pet.id)
+            }
+            await db.create(pet)
+        })
         setUserName(usuario.nome||"")
         setPet(usuario.pets)   
+        setIsLoading(false)
     }
+
+    
 
     function sair() { 
         db.sair()
@@ -40,108 +58,133 @@ export default function Home() {
 
 
     return(
-        <View onLayout={carregarInfos} style={styles.tela}>
-            <View style={{width: "100%", height: 85, alignItems: "center"}}>
-                <View style={styles.topBarShadow} />
-                <View style={styles.topBar}>
-                    <View>
-                        <Text style={styles.pagTitle}>
-                            Olá, {userName}!
-                        </Text>
-                        <Text>
-                            Todo cuidado em um so lugar...
-                        </Text>
-                    </View>
-                    <TouchableWithoutFeedback onPress={sair}>
-                        <Image style={styles.perfil} source={require("@/assets/images/user.png")}></Image>
-                    </TouchableWithoutFeedback>
-                </View>
-            </View>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignItems:"center", gap:30, paddingBottom:100}}>
-            <View style={styles.lembrete}>
-                <View style={{gap:10, padding:15}}>
-                    <View style={{flexDirection:"row", alignItems:"center", gap:10, marginBottom:5}}>
-                        <Image style={styles.pata} source={require("@/assets/images/pata.png")}></Image>
-                        <Text style={styles.lembreteText}>Vacina contra Raiva</Text>
-                    </View>
-                    <View style={{flexDirection:"row", alignItems:"center", gap:10, marginBottom:5}}>
-                        <Image style={styles.clock} source={require("@/assets/images/clock.png")}></Image>
-                        <Text style={styles.lembreteText}>10:00 AM - 20/10/2024</Text>
-                    </View>
-                </View>
-                <View style={{paddingRight:20}}>
-                    <Image style={styles.pataColor} source={require("@/assets/images/pataColor.png")}></Image>
-                </View>
-            </View>
-            
-
-            <View style={{width:"100%", height:330}}>
-                <Text style={styles.listTitle}>Meus Pets</Text>
-                <FlatList
-                    style={styles.petList}
-                    horizontal
-                    data={pets}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => (
-                        <Link href={{pathname : "/pet", params : {id : item.id}}} style={[styles.petItem]}>
-                            <Image style={styles.imageItem} source={(item.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
-                            <View style={{flexDirection:"row", alignItems:"center",width:"90%"}}>
-                                <Text style={{fontSize:20,color:"#000000",fontWeight:"bold"}}>{item.nome}</Text>
-                                <Image style={styles.imageSexoItem} source={(item.genero=="macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}></Image>
-                            </View>
-                            <Text style={{color:"#686868ff",width:"90%",marginBottom:15}}>{item.especie}</Text>
-                        </Link>
-                    )}
-                    showsHorizontalScrollIndicator={false}
-                    ListFooterComponent={
-                        <View style={styles.addPet}>
-                            <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={() => router.push('/cadastroPet')}>
-                                <Image style={{height:40,width:40}} source={require("@/assets/images/add.png")}></Image>
-                            </TouchableOpacity>
-                            <Text style={{fontSize:20,color:"#000000"}}>Adicionar Pet</Text>
+        <View onLayout={carregarInfos} style={styles.container}>
+            {isLoading?
+            (
+                <View style={styles.tela}>
+                    <View style={{width: "100%", height: 85, alignItems: "center"}}>
+                        <View style={styles.topBarShadow} />
+                        <View style={styles.topBar}>
+                            
                         </View>
-                    }
-                />
-            </View>
-
-            
-            <TouchableOpacity activeOpacity={0.8} style={styles.anuncio} onPress={() => router.push('/home')}>
-                <Image style={styles.anuncioImage} source={require("@/assets/images/anuncioC.png")}></Image>
-            </TouchableOpacity>
-        </ScrollView>
-            
-               
-
-            
-            <View style={styles.navbar}>
-                <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("@/assets/images/forum.png")}></Image>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("@/assets/images/pet.png")}></Image>
-                </TouchableWithoutFeedback>
-                <View style={styles.here}>
-                    <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                        <Image style={styles.pata} source={require("@/assets/images/home.png")}></Image>
-                    </TouchableWithoutFeedback>
+                    </View>
+                    <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+                        <LoadCat/>
+                    </View>
+                    <View style={styles.navbar}>
+                        
+                    </View>
                 </View>
                 
-                <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("@/assets/images/premium.png")}></Image>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                    <Image style={styles.pata} source={require("@/assets/images/chatbot.png")}></Image>
-                </TouchableWithoutFeedback>
-            </View>
+            ):(
+                <View style={styles.tela}>
+                    <View style={{width: "100%", height: 85, alignItems: "center"}}>
+                        <View style={styles.topBarShadow} />
+                        <View style={styles.topBar}>
+                            <View>
+                                <Text style={styles.pagTitle}>
+                                    Olá, {userName}!
+                                </Text>
+                                <Text>
+                                    Todo cuidado em um so lugar...
+                                </Text>
+                            </View>
+                            <TouchableWithoutFeedback onPress={sair}>
+                                <Image style={styles.perfil} source={require("@/assets/images/user.png")}></Image>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    </View>
+                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignItems:"center", gap:30, paddingBottom:100}}>
+                        <View style={styles.lembrete}>
+                            <View style={{gap:10, padding:15}}>
+                                <View style={{flexDirection:"row", alignItems:"center", gap:10, marginBottom:5}}>
+                                    <Image style={styles.pata} source={require("@/assets/images/pata.png")}></Image>
+                                    <Text style={styles.lembreteText}>Vacina contra Raiva</Text>
+                                </View>
+                                <View style={{flexDirection:"row", alignItems:"center", gap:10, marginBottom:5}}>
+                                    <Image style={styles.clock} source={require("@/assets/images/clock.png")}></Image>
+                                    <Text style={styles.lembreteText}>10:00 AM - 20/10/2024</Text>
+                                </View>
+                            </View>
+                            <View style={{paddingRight:20}}>
+                                <Image style={styles.pataColor} source={require("@/assets/images/pataColor.png")}></Image>
+                            </View>
+                        </View>
+                        
+
+                        <View style={{width:"100%", height:330}}>
+                            <Text style={styles.listTitle}>Meus Pets</Text>
+                            <FlatList
+                                style={styles.petList}
+                                horizontal
+                                data={pets}
+                                keyExtractor={item => String(item.id)}
+                                renderItem={({ item }) => (
+                                    <Link href={{pathname : "/pet", params : {id : item.id, nextPet: nextPet}}} style={[styles.petItem]}>
+                                        <Image style={styles.imageItem} source={(item.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                                        <View style={{flexDirection:"row", alignItems:"center",width:"90%"}}>
+                                            <Text style={{fontSize:20,color:"#000000",fontWeight:"bold"}}>{item.nome}</Text>
+                                            <Image style={styles.imageSexoItem} source={(item.genero=="macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}></Image>
+                                        </View>
+                                        <Text style={{color:"#686868ff",width:"90%",marginBottom:15}}>{item.especie}</Text>
+                                    </Link>
+                                )}
+                                showsHorizontalScrollIndicator={false}
+                                ListFooterComponent={
+                                    <View style={styles.addPet}>
+                                        <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={() => router.push('/cadastroPet')}>
+                                            <Image style={{height:40,width:40}} source={require("@/assets/images/add.png")}></Image>
+                                        </TouchableOpacity>
+                                        <Text style={{fontSize:20,color:"#000000"}}>Adicionar Pet</Text>
+                                    </View>
+                                }
+                            />
+                        </View>
+
+                        
+                        <TouchableOpacity activeOpacity={0.8} style={styles.anuncio} onPress={() => console.log('/home')}>
+                            <Image style={styles.anuncioImage} source={require("@/assets/images/anuncioC.png")}></Image>
+                        </TouchableOpacity>
+                    </ScrollView>
+                    
+                    <View style={styles.navbar}>
+                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
+                            <Image style={styles.pata} source={require("@/assets/images/forum.png")}></Image>
+                        </TouchableWithoutFeedback>
+                        <Link style={styles.navItem} href={{pathname : "/pet", params : {id : firstPet , nextPet: nextPet}}}>
+                            <Image style={styles.pata} source={require("@/assets/images/pet.png")}></Image>
+                        </Link>
+                        <View style={styles.here}>
+                            <TouchableWithoutFeedback style={styles.navItem}>
+                                <Image style={styles.pata} source={require("@/assets/images/home.png")}></Image>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        
+                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
+                            <Image style={styles.pata} source={require("@/assets/images/premium.png")}></Image>
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
+                            <Image style={styles.pata} source={require("@/assets/images/chatbot.png")}></Image>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </View>
+            )
             
+        }
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     tela:{
         gap:50,
         backgroundColor:"#FFFFFF",
+        width:"100%",
         height:"100%",
     },
     pagTitle:{

@@ -2,9 +2,11 @@ import { useState } from 'react';
 import {  View, Text , StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { router } from 'expo-router';
 import { useDatabase } from "@/database/useDatabase";
+import LoadCat from '@/components/loadcat';
 
 export default function Index() {
     // Example of using useState hook
+    const [isLoading, setIsLoading] = useState(true);
     const db = useDatabase();
     function entrar() {
         router.navigate('/entre');
@@ -14,22 +16,30 @@ export default function Index() {
         if (result.length > 0) {
             router.replace('/home');
         }
+        setIsLoading(false);
     }
     function cadastrar() {
         router.navigate('/cadastro');
     }
     return (
-        <View onLayout={checaLogin}style={styles.conteiner}>
-            <Image style={styles.image} source={require("../assets/images/logoColor.png")} />
-            <Text style={styles.title}>Bem-vindo!</Text>
-            <Text style={styles.title}>Seu pet em boas patas.</Text>
-            <TouchableOpacity style={styles.entrar} activeOpacity={0.9} onPress={entrar}>
-                <Text style={styles.textE}>Entrar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cadastrar} activeOpacity={0.9} onPress={cadastrar}>
-                <Text style={styles.textC}>Cadastrar-se</Text>
-            </TouchableOpacity>
+        <View onLayout={checaLogin}>
+            {isLoading ? (
+                <LoadCat/>
+                ) : (
+                <View style={styles.conteiner}>
+                    <Image style={styles.image} source={require("../assets/images/logoColor.png")} />
+                    <Text style={styles.title}>Bem-vindo!</Text>
+                    <Text style={styles.title}>Seu pet em boas patas.</Text>
+                    <TouchableOpacity style={styles.entrar} activeOpacity={0.9} onPress={entrar}>
+                        <Text style={styles.textE}>Entrar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.cadastrar} activeOpacity={0.9} onPress={cadastrar}>
+                        <Text style={styles.textC}>Cadastrar-se</Text>
+                    </TouchableOpacity>
 
+                </View>
+                )
+            }
         </View>
     )
 }
@@ -37,6 +47,8 @@ export default function Index() {
 const styles = StyleSheet.create({
     conteiner:{
         flex:1,
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 32,
