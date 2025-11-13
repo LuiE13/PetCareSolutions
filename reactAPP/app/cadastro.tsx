@@ -3,6 +3,7 @@ import { Input } from '@/components/input';
 import { router } from 'expo-router';
 import { Usuario } from "@/objects/usuario";
 import { useDatabase } from "@/database/useDatabase";
+import { DatePica } from "@/components/datepicker";
 
 
 
@@ -17,10 +18,6 @@ export default function Cadastro() {
             return;
         }
 
-        if (Data_nascimento.length !== 10 || Data_nascimento.indexOf("-") === -1) {
-            alert("Por favor, insira uma data de nascimento válida no formato AAAA/MM/DD.");
-            return;
-        }
 
         if (Senha.length < 6) {
             alert("A senha deve ter no mínimo 6 caracteres.");
@@ -63,29 +60,28 @@ export default function Cadastro() {
         <View style={styles.container}>
             <Image style={styles.image} source={require("../assets/images/logoColor.png")} />
             <Text style={styles.title}>Cadastro</Text>
-            <Input placeholder="Nome" onChangeText={(txt) =>{
+            <Input placeholder="Nome" valueChange={(txt) =>{
                 name = txt
                 
-                }}/>
-            <Input autoCapitalize="none" keyboardType="email-address" placeholder="Email" onChangeText={(txt) => {
+                }} value={name}/>
+            <Input autoCapitalize="none" keyboardType="email-address" placeholder="Email" valueChange={(txt) => {
                 email = txt
                 
-                }}/>
-            <Input autoCapitalize="none" placeholder="Senha" onChangeText={(txt) =>{
+                }} value={email}/>
+            <Input autoCapitalize="none" placeholder="Senha" valueChange={(txt) =>{
                 senha = txt
                 
-                }} secureTextEntry />
-            <Input autoCapitalize="none" placeholder="Confirme a senha" onChangeText={(txt) =>{
+                }} secureTextEntry value={senha}/>
+            <Input autoCapitalize="none" placeholder="Confirme a senha" valueChange={(txt) =>{
                 confirmaSenha = txt
                 
-                }} secureTextEntry />
+                }} secureTextEntry value={confirmaSenha}/>
 
           
 
-            <Input keyboardType="numeric" placeholder="Data de nascimento: ex: 2008/10/29" autoComplete="birthdate-full" onChangeText={(txt) =>{
-                data_nascimento = txt.replaceAll("/", "-");
-                
-            }} />
+            <DatePica title="Data de Nascimento" valueButton={(txt)=>{
+                data_nascimento=txt?.toLocaleDateString()||''
+            }}></DatePica>
           
             <TouchableOpacity style={styles.button} activeOpacity={0.9}  onPress={() => Cadastrar(name, email, senha, confirmaSenha, data_nascimento)}>
                 <Text style={styles.buttonText}>Cadastrar</Text>

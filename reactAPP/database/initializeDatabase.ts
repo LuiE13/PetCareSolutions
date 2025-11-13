@@ -66,28 +66,14 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             Sexo text NOT NULL DEFAULT 'macho'
         );`)
     await database.execAsync(`
-        CREATE TABLE IF NOT EXISTS postagens (
-            Id_post interger PRIMARY KEY NOT NULL,
-            Id_Usuario interger NOT NULL,
-            Titulo varchar(100),
-            Conteudo text,
-            likes interger,
-            DataPost date
-        );
         CREATE TABLE IF NOT EXISTS vacinas (
             Id_vacinas interger PRIMARY KEY NOT NULL,
             id_usuario interger,
             id_pet interger,
-            nomeVac varchar(100)
+            nomeVac varchar(100),
+            dataVacina date,
+            dataProxDose date
         );
-        CREATE TABLE IF NOT EXISTS respostas (
-            Id_respostas interger PRIMARY KEY NOT NULL,
-            Id_Usuario interger NOT NULL,
-            Id_post interger NOT NULL,
-            Conteudo text,
-            Likes interger,
-            DataPost date
-        )
     `)
 
 

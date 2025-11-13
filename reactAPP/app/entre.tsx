@@ -6,6 +6,7 @@ import { useDatabase } from "@/database/useDatabase";
 
 export default function Entre() {
     const db = useDatabase()
+    
     let email: string = "", senha: string = "";
     function entrar(Email: string, Senha: string) {
         if (Email === "" || Senha === "") {
@@ -43,12 +44,12 @@ export default function Entre() {
         <View style={styles.container}>
             <Image style={styles.image} source={require('../assets/images/logoColor.png')} />
             <Text style={styles.title}>Login</Text>
-            <Input placeholder="Email:" onChangeText={(text)=>{
+            <Input placeholder="Email:" valueChange={(text)=>{
                 email = text
-            }}/>
-            <Input placeholder="Senha:" secureTextEntry onChangeText={(text)=>{
+            }} value={email}/>
+            <Input placeholder="Senha:" secureTextEntry valueChange={(text)=>{
                 senha = text
-            }}/>
+            }} value={senha}/>
             <TouchableOpacity style={styles.esquece} activeOpacity={0.9} onPress={() => router.navigate('/esqueceu')}>
                 <Text style={styles.esqueceText}>Esqueceu a senha?</Text>
             </TouchableOpacity>

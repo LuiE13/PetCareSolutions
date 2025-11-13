@@ -22,9 +22,11 @@ export default function Index() {
         router.navigate('/cadastro');
     }
     return (
-        <View onLayout={checaLogin}>
+        <View style={styles.conteiner} onLayout={checaLogin}>
             {isLoading ? (
-                <LoadCat/>
+                <View  style={styles.conteiner}>
+                    <LoadCat/>
+                </View>
                 ) : (
                 <View style={styles.conteiner}>
                     <Image style={styles.image} source={require("../assets/images/logoColor.png")} />

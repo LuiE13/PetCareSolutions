@@ -1,16 +1,20 @@
 import { ScrollView, View, Text ,StyleSheet, TouchableOpacity, FlatList, TouchableWithoutFeedback, Image,ImageBackground} from "react-native";
 import {router , Link} from 'expo-router';
+import { NavBar } from "@/components/navbar";
 import { useDatabase } from "@/database/useDatabase";
 import { useState, useEffect} from "react";
 import { Usuario } from "@/objects/usuario";
+import NetInfo from"@react-native-community/netinfo";
 import { Pet } from "@/objects/pet";
 import LoadCat from "@/components/loadcat";
 
 
 export default function Home() {
     const [pets, setPet] = useState<Pet[]>(); 
-    var firstPet =0;
-    var nextPet =0;
+    const [firstPet, setFirstPet] = useState<string>();
+    const [nextPet, setNextPet] = useState<string>();
+    var firstSet = false;
+    var nextSet = false;
     const [userName, setUserName] = useState("usuario")
     const [isLoading, setIsLoading] = useState(true);
     const usuario = new Usuario('','');
@@ -31,22 +35,96 @@ export default function Home() {
                 
             })
         })
-        await usuario.getPets()
-        usuario.pets?.forEach(async(pet)=>{
-            
-            if(firstPet==0){
-                firstPet = Number(pet.id)
-                
-                nextPet = firstPet
+        
+        NetInfo.fetch().then(state => {
+            if(!state.isConnected){
+                db.getAllPets(usuario.Id_usuario||0).then((dados)=>{
+                    if(dados instanceof Array){
+                        dados.forEach((petData)=>{
+                            if(firstPet===undefined){
+                                setFirstPet(String(petData.Id_pet))
+                                
+                                setNextPet(firstPet) 
+                            }
+                            if(nextPet==firstPet && petData.Id_pet!=Number(firstPet)){
+                                setNextPet(String(petData.Id_pet))
+                            }
+                        
+                            const pet = new Pet(
+                                petData.Especie,
+                                petData.Nome,
+                                new Date(petData.Data_Nascimento),
+                                petData.Raca,
+                                petData.Peso,
+                                petData.Cor,
+                                petData.Porte,
+                                petData.Sexo,
+                                petData.Id_Usuario
+                            )
+                            pet.id = petData.Id_pet
+                            usuario.addPet(pet)
+                            setUserName(usuario.nome||"")
+                            setPet(usuario.pets)   
+                            setIsLoading(false)
+                        })
+                    }
+                })
+            }else{
+               
+                usuario.getPets().then(
+                    async ()=> {
+                         
+                        usuario.pets?.forEach(async(pet)=>{
+                            if(!firstSet){
+                                setFirstPet(String(pet.id))
+                                setNextPet(firstPet) 
+                                firstSet = true;
+                            }
+                            if(nextSet === false && String(pet.id) !== firstPet){
+                                setNextPet(String(pet.id))
+                                nextSet = true;
+                            }
+                            await db.create(pet)
+                        })
+                        db.getAllPets(usuario.Id_usuario||0).then((dados)=>{
+                            
+                            if(dados instanceof Array){
+                                var idExists : number[] = [];
+                                dados.forEach((petData)=>{
+                                    const pet = new Pet(
+                                        petData.Especie,
+                                        petData.Nome,
+                                        new Date,
+                                        petData.Raca,
+                                        petData.Peso,
+                                        petData.Cor,
+                                        petData.Porte,
+                                        petData.Sexo,
+                                        petData.Id_Usuario
+                                    )
+                                    pet.id = petData.Id_pet
+                                    
+                                    usuario.pets?.forEach((p)=>{
+                                        if(p.id==pet.id){
+                                            idExists.push(Number(pet.id))
+                                        }
+                                    })
+                                    if(!idExists.includes(pet.id)){
+                                        usuario.addPet(pet)
+                                    }
+                                })
+                                
+                                setUserName(usuario.nome||"")
+                                setPet(usuario.pets)
+                                setIsLoading(false)
+                            }
+                            
+                        })
+                    }
+                )        
             }
-            if(nextPet==firstPet && pet.id!=firstPet){
-                nextPet = Number(pet.id)
-            }
-            await db.create(pet)
-        })
-        setUserName(usuario.nome||"")
-        setPet(usuario.pets)   
-        setIsLoading(false)
+        });
+        
     }
 
     
@@ -147,26 +225,7 @@ export default function Home() {
                         </TouchableOpacity>
                     </ScrollView>
                     
-                    <View style={styles.navbar}>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
-                            <Image style={styles.pata} source={require("@/assets/images/forum.png")}></Image>
-                        </TouchableWithoutFeedback>
-                        <Link style={styles.navItem} href={{pathname : "/pet", params : {id : firstPet , nextPet: nextPet}}}>
-                            <Image style={styles.pata} source={require("@/assets/images/pet.png")}></Image>
-                        </Link>
-                        <View style={styles.here}>
-                            <TouchableWithoutFeedback style={styles.navItem}>
-                                <Image style={styles.pata} source={require("@/assets/images/home.png")}></Image>
-                            </TouchableWithoutFeedback>
-                        </View>
-                        
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
-                            <Image style={styles.pata} source={require("@/assets/images/premium.png")}></Image>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/home')}>
-                            <Image style={styles.pata} source={require("@/assets/images/chatbot.png")}></Image>
-                        </TouchableWithoutFeedback>
-                    </View>
+                    <NavBar idPet="1" idNextPet="4" here="home"></NavBar>
                 </View>
             )
             
@@ -184,6 +243,9 @@ const styles = StyleSheet.create({
     tela:{
         gap:50,
         backgroundColor:"#FFFFFF",
+        justifyContent:"center",
+        alignItems:"center",
+        flex:1,
         width:"100%",
         height:"100%",
     },

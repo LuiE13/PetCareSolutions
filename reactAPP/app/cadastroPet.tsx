@@ -1,11 +1,13 @@
 import { View , Text, TouchableOpacity, Image, Button, StyleSheet, Pressable} from "react-native";
 import { Input } from "@/components/input";
 import { Dropdown } from 'react-native-element-dropdown';
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { useState, useEffect } from "react";
+import { DatePica} from "@/components/datepicker"
 import { Usuario } from "@/objects/usuario";
 import{ Pet } from "@/objects/pet";
 import * as sqlite from "expo-sqlite";
+import { useDatabase } from "@/database/useDatabase";
 
 
 const data = [
@@ -123,14 +125,16 @@ export default function CadastroPet() {
     const [porteIsFocus, setPorteIsFocus] = useState(false);
     const [generoValue, setGeneroValue] = useState(null);
     const [generoIsFocus, setGeneroIsFocus] = useState(false);
-    const [especie, setEspecieValue] = useState('Cachorro');
+    const [especie, setEspecieValue] = useState('Cão');
     const [nome, setNome] = useState('');
-    const [dataNasc, setDataNasc] = useState('');
+    const [dataNasc, setDataNasc] = useState<Date>();
     const [raca, setRaca] = useState('');
     const [peso, setPeso] = useState('');
     const [cor, setCor] = useState('');
     const [porte, setPorte] = useState('');
     const [genero, setGenero] = useState('');
+    const [donoId, setDonoId] = useState('');
+    const db = useDatabase();
 
     const renderRacaLabel = () => {
         if (racaValue || racaIsFocus) {
@@ -163,24 +167,55 @@ export default function CadastroPet() {
         return null;
     }  
 
-    function cadastrarPet() {
-        if (nome === "" || dataNasc === "" || raca === "" || peso === "" || cor === "" || porte === "" || genero === "") {
-            alert("Por favor, preencha todos os campos.");
+    async function cadastrarPet() {
+        if (nome === "" || dataNasc === undefined || raca === "" || peso === "" || cor === "" || porte === "" || genero === "") {
+            var imcompleto = ''
+            if (nome === "") {
+                imcompleto+=' nome'
+            }
+            if (dataNasc === undefined) {
+                imcompleto+=' data de nascimento'
+            }
+            if (raca === "") {
+                imcompleto+=' raça'
+            }
+            if (peso === "") {
+                imcompleto+=' peso'
+            }
+            if (cor === "") {
+                imcompleto+=' cor'
+            }
+            if (porte === "") {
+                imcompleto+=' porte'
+            }
+            if (genero === "") {
+                imcompleto+=' genero'
+            }
+            alert("Os campos : "+imcompleto+" não foram preenchidos. Por favor, preencha todos os campos.");
+
             return;
         }
         if (isNaN(Number(peso))) {
             alert("Por favor, insira um peso válido.");
             return;
         }
-        const separetedDate = dataNasc.split("-");
-        const day = Number(separetedDate[2]);
-        const month = Number(separetedDate[1]);
-        const year = Number(separetedDate[0]);
-        if (day > 31 || day <= 0 || month > 12 || month <= 0 || year > new Date().getFullYear() || year < 1900) {
-            alert("Por favor, insira uma data de nascimento válida no formato DD/MM/AAAA.");
-            return;
-        }
         
+        await db.getUser().then((dado)=> {
+            dado.map((user)=>{
+                setDonoId(String(user.Id_Usuario))
+                
+            })
+        })
+
+        const pet = new Pet(especie,nome,new Date(dataNasc),raca,Number(peso),cor,porte,genero,Number(donoId))
+        
+        pet.register().then((retorno)=>{
+            console.log(retorno)
+            if (retorno==0) {
+                db.create(pet)
+                router.replace({pathname : "/pet", params : {id : pet.id , nextPet: pet.id}})
+            }
+        })
         return;
     }
 
@@ -193,8 +228,8 @@ export default function CadastroPet() {
                 <Image style={styles.image} source={require("@/assets/images/logoColor.png")} />
                 <Text style={styles.title}>Cadastre seu Pet</Text>
                 <View style={styles.outros }>
-                    <Pressable style={[styles.imgeButton,  (especie == "Cachorro") && {backgroundColor:'#b19eebff'}]} onPress={() => 
-                        setEspecieValue('Cachorro')
+                    <Pressable style={[styles.imgeButton,  (especie == "Cão") && {backgroundColor:'#b19eebff'}]} onPress={() => 
+                        setEspecieValue('Cão')
                         }>
                         <Image style={styles.img} source={require('@/assets/images/dog.png')} />
                     </Pressable>
@@ -205,23 +240,14 @@ export default function CadastroPet() {
                     </Pressable>
                 </View>
                 {/* Formulário de cadastro */}
-                <Input placeholder="Nome" onChangeText={(txt) =>{
+                <Input placeholder="Nome" valueChange={(txt) =>{
                     setNome(txt);
                     
-                    }}/>
-                <Input placeholder="Data de Nascimento: ex: 2008/10/29" onChangeText={(txt) =>{
-                    txt = txt.replace("/", '');
-                    if (txt.length > 8) {
-                        txt = txt.slice(0, 8);
-                    }
-                    if (txt.length > 4) {
-                        txt = txt.slice(0, 4) + '-' + txt.slice(4);
-                    }
-                    if (txt.length > 7) {
-                        txt = txt.slice(0, 7) + '-' + txt.slice(7);
-                    }
-                    setDataNasc(txt);
-                }}/>
+                    }} value={nome}/>
+                <DatePica title="Data De Nascimento" valueButton={(txt)=>{
+                    console.log(txt)
+                    setDataNasc(txt)
+                }}></DatePica>
                 <View style={styles.container2}>
                     {renderRacaLabel()}
                     <Dropdown
@@ -248,11 +274,11 @@ export default function CadastroPet() {
                         
                     />
                 </View>
-                <Input keyboardType="numeric" placeholder="Peso" onChangeText={(txt) =>{
+                <Input keyboardType="numeric" placeholder="Peso em kilos" valueChange={(txt) =>{
                     setPeso(txt);
                     
                     }}/>
-                <Input placeholder="Cor" onChangeText={(txt) =>{
+                <Input placeholder="Cor" valueChange={(txt) =>{
                     setCor(txt);
                     
                     }} />
@@ -298,7 +324,7 @@ export default function CadastroPet() {
                         onBlur={() => setGeneroIsFocus(false)}
                         onChange={item => {
                             setGeneroValue(item.value);
-                            setGenero(item.label);
+                            setGenero(String(item.label).toLowerCase());
                             setGeneroIsFocus(false);
                         }}
                         

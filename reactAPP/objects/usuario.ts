@@ -127,7 +127,6 @@ class Usuario {
     }
     
     public async getPets(){
-        
          await fetch("https://api-rest-comedouro-2poss.onrender.com/pet/meuspets/"+this.Id_usuario,{
             method: 'GET',
             headers: {
@@ -147,8 +146,9 @@ class Usuario {
         }).then(dados=>{
             dados.map((pet:any)=>{
                 
-                const animal = new Pet(pet.Especie,pet.Nome,pet.data_nascimento,pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
+                const animal = new Pet(pet.Especie,pet.Nome,new Date(pet.data_nascimento),pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
                 animal.id = pet.id_pet
+                
                 this.addPet(animal)
                 
             })

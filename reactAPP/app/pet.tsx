@@ -1,36 +1,94 @@
-import { View , Text, StyleSheet, Image, TouchableWithoutFeedback} from "react-native";
+import { View , Text, StyleSheet, Image, TouchableWithoutFeedback, ScrollView, TouchableOpacity} from "react-native";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useState, useEffect, use } from "react";
+import {Input} from "@/components/input";
 import { Pet } from "@/objects/pet";
-import { useSQLiteContext } from "expo-sqlite";
+import { Vacina } from "@/objects/vacina";
+import NetInfo from "@react-native-community/netinfo";
+import DatePicker from "@react-native-community/datetimepicker";
 import { useDatabase } from "@/database/useDatabase";
 import LoadCat from "@/components/loadcat";
 export default function PagPet() {
     const database = useDatabase()
     const [petData, setPetData] = useState<Pet>(new Pet("","0",new Date,"",0,"","","",0,));
+    const [vacinas, setVacinas] = useState<Vacina[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [popUpVisible, setPopupVisible] = useState(false);
+    const [vacinaName, setVacinaName] = useState("");
+    const [vacinaDate, setVacinaDate] = useState(new Date());
+    const [nextDoseDate, setNextDoseDate] = useState<Date>();
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showDateDosePicker, setShowDateDosePicker] = useState(false);
+
+    function selectData(){
+        setShowDatePicker(true);
+    }
+
+    function selectDoseData(){
+        setShowDateDosePicker(true);
+        console.log("aqui");
+    }
 
     const { id } = useLocalSearchParams<{ id: string }>();
     const { nextPet } = useLocalSearchParams<{ nextPet: string }>();
     async function fetchPetData() {
         
-        const pet = new Pet("","0",new Date,"",0,"","","",0,) ;
-        
-        database.getPet(Number(id)).then((data)=>{
-            if(data.length>0){
-                pet.id = data[0].Id_pet;
-                pet.donoId = data[0].Id_Usuario;
-                pet.nome = data[0].Nome;    
-                pet.especie = data[0].Especie;
-                pet.dataNasc = new Date(data[0].Data_Nascimento);
-                pet.raca = data[0].Raca;
-                pet.peso = data[0].Peso;
-                pet.cor = data[0].Cor;
-                pet.genero = data[0].Sexo;
-                pet.porte = data[0].Porte;
-                setPetData(pet);
-                setIsLoading(false);
-                console.log(pet);
+        NetInfo.fetch().then(state => {
+            if(!state.isConnected){
+                const pet = new Pet("","0",new Date(),"",0,"","","",0,);
+                database.getPet(Number(id)).then((data)=>{
+                    if(data.length>0){
+                        pet.id = data[0].Id_pet;
+                        pet.donoId = data[0].Id_Usuario;
+                        
+                        pet.nome = data[0].Nome;    
+                        pet.especie = data[0].Especie;
+                        
+                        pet.dataNasc = String(new Date(data[0].Data_Nascimento).getFullYear())+"-"+String(new Date(data[0].Data_Nascimento).getMonth()+1)+"-"+String(new Date(data[0].Data_Nascimento).getUTCDate());
+                        pet.raca = data[0].Raca;
+                        pet.peso = data[0].Peso;
+                        pet.cor = data[0].Cor;
+                        pet.genero = data[0].Sexo;
+                        pet.porte = data[0].Porte;
+                        setPetData(pet);
+                    }
+                })
+                
+                database.getVacs(Number(id)).then((data)=>{
+                    data.forEach((vacina)=>{
+                        pet.vacinas?.push(new Vacina(Number(vacina.Id_vacina),Number(vacina.id_pet),Number(vacina.id_usuario),String(vacina.nomeVac),new Date(vacina.dataVacina),vacina.dataProxDose?new Date(vacina.dataProxDose):undefined))
+                    })
+                    setVacinas(pet.vacinas||[]);
+                    setIsLoading(false);
+                })
+            }else{
+                const pet = new Pet("","0",new Date(),"",0,"","","",0,);
+                
+                database.getPet(Number(id)).then((data)=>{
+                    if(data.length>0){
+                        pet.id = data[0].Id_pet;
+                        pet.donoId = data[0].Id_Usuario;
+                        pet.nome = data[0].Nome;    
+                        pet.especie = data[0].Especie;
+                        pet.dataNasc =  String(new Date(data[0].Data_Nascimento).getFullYear())+"-"+String(new Date(data[0].Data_Nascimento).getMonth()+1)+"-"+String(new Date(data[0].Data_Nascimento).getUTCDate())||""
+                        pet.raca = data[0].Raca;
+                        pet.peso = data[0].Peso;
+                        pet.cor = data[0].Cor;
+                        pet.genero = data[0].Sexo;
+                        pet.porte = data[0].Porte;
+                        setPetData(pet);
+                    }
+                    pet.searchVacinas().then(()=>{
+                        
+                        pet.vacinas?.forEach(async(vacina)=>{
+                            database.create(vacina)
+                            
+                        })
+                        
+                        setVacinas(pet.vacinas||[]);
+                        setIsLoading(false);
+                    })
+                })   
             }
         })
         
@@ -39,13 +97,167 @@ export default function PagPet() {
     return (
         <View onLayout={fetchPetData} style={{flex:1, backgroundColor:"#FFFAEF"}}>
             {isLoading ? (
-                <LoadCat/>
+                popUpVisible ? (
+
+                    <View style={{alignItems:"center",height:"100%", paddingBottom:80}}>
+                        <View style={styles.backPopUp}>
+                            <View style={{gap:5,padding:20,width:"80%", backgroundColor:"#fff", borderRadius:20, top:"30%", alignItems:"center", justifyContent:"center"}}>  
+                                <Text style={{fontSize:20, fontWeight:"bold", marginBottom:20}}>Registrar Vacina</Text>
+                                <Input placeholder="Nome da Vacina" valueChange={(text)=>setVacinaName(text)}></Input>
+                                <TouchableOpacity onPress={selectData} style={{borderColor:"#777777ff",borderWidth:2, width:"100%", height:50, backgroundColor:"#ffffffff", alignItems:"center", justifyContent:"center", borderRadius:10}}>
+                                    <Text>Data da Vacina: {vacinaDate.toLocaleDateString()}</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={selectDoseData} style={{borderColor:"#777777ff",borderWidth:2, width:"100%", height:50, backgroundColor:"#ffffffff", alignItems:"center", justifyContent:"center", borderRadius:10}}>
+                                    <Text>Data da Proxima Dose: {nextDoseDate===undefined?"Sem Proxima dose":nextDoseDate.toLocaleDateString()}</Text>
+                                </TouchableOpacity>
+                                {showDatePicker && (
+                                    <DatePicker
+                                    // key
+                                        value={vacinaDate
+                                        }
+                                        mode="date"
+                                        display="spinner"
+                                        onChange={(event, selectedDate) => {
+                                            const currentDate = selectedDate || vacinaDate;
+                                            setShowDatePicker(false);
+                                            setVacinaDate(currentDate);
+                                        }
+                                        }
+                                    />
+                                )}
+                                {showDateDosePicker ? (
+                                    <DatePicker
+                                        value={nextDoseDate || new Date()}
+                                        mode="date"
+                                        display="spinner"
+                                        
+                                        onChange={(event, selectedDate) => {
+                                            const currentDate = selectedDate || nextDoseDate;
+                                            setShowDateDosePicker(false);
+                                            setNextDoseDate(currentDate);
+                                        }}
+                                    />
+                                ):(null)}
+                                <TouchableOpacity style={{width:"60%", height:50, backgroundColor:"#805BEF", borderRadius:10, alignItems:"center", justifyContent:"center"}} onPress={async()=>{
+                                    if(vacinaName==""){
+                                        alert("Por favor, insira o nome da vacina.");
+                                        return;
+                                    }
+                                    setPopupVisible(false)
+                                    petData.registerVac(vacinaName, vacinaDate, nextDoseDate||null).then( respost =>{
+                                        petData.searchVacinas().then(()=>{
+                                           setVacinas(petData.vacinas||[]) 
+                                           setIsLoading(false)
+                                        })
+                                    });
+                                }}>
+                                    <Text style={{fontSize:18, fontWeight:"bold", textAlign:"center",color:"#fff"}}>Adicionar Vacina</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{width:"60%", height:50, backgroundColor:"#805BEF", borderRadius:10, alignItems:"center", justifyContent:"center"}} onPress={async()=>{
+                                    setIsLoading(false)
+                                    setPopupVisible(false)  
+                                }}>
+                                    <Text style={{fontSize:18, fontWeight:"bold", textAlign:"center",color:"#fff"}}>Cancelar</Text>
+                                </TouchableOpacity>
+                            </View>  
+                        </View>
+                        <View style={styles.topShadow}/>
+                        <Text style={{fontSize:35, fontWeight:"900",zIndex:10,top:'5%', position:"absolute", color:"#000000"}}>Página do Pet</Text>
+                        <View style={styles.petInfo}>
+                            <Image style={styles.petImage} resizeMode="cover" source={(petData.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                            <View style={styles.basicInfo}>
+                                <View style={{flexDirection:"row", alignItems:"center", width:"60%"}}>
+                                    <Text style={styles.nome}>{petData.nome}</Text>
+                                    <Image style={styles.genImg} source={(petData.genero=="Macho"||"macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}/>
+                                </View>
+                                <Text style={styles.raca}>{petData.raca}</Text>
+                            </View>
+                            <Text style={{fontSize:16, color:"#000000ff"}}>{petData.especie}</Text>
+                            <Text style={{fontSize:16, color:"#000000ff"}}>{Number(petData.dataNasc) - Number(new Date)}</Text>
+                        </View>
+                        
+                        <View style={styles.petPeso}>
+                            <View style={styles.racaoInfo}>
+                                <View style={{marginTop:20,flexDirection:"row", alignItems:"center", width:"100%", justifyContent:"space-around",paddingHorizontal:10}}>
+                                    <Text style={{fontSize:14, fontWeight:"bold", color:"#000000", width:"60%"}}>Quantidade de Ração</Text>
+                                    <Image style={styles.genImg} source={require("@/assets/images/balanca.png")}></Image>
+                                </View>
+                                <View style={{marginTop:20,flexDirection:"row", alignItems:"flex-end", width:"100%", justifyContent:"center"}}>
+                                    <Text style={{fontSize:38, fontWeight:"bold", color:"#000000"}}>400</Text>
+                                    <Text style={{fontSize:20,marginBottom:5}}>gm</Text>
+                                </View>
+                            </View>
+                            <View style={[styles.racaoInfo,{ backgroundColor:"#805BEF"}]}>
+                                <View style={{marginTop:20,flexDirection:"row", alignItems:"center", width:"100%", justifyContent:"space-around",paddingHorizontal:10}}>
+                                    <Text style={{fontSize:14, fontWeight:"bold", color:"#ffffffff", width:"60%"}}>Peso do animal</Text>
+                                    <Image style={styles.genImg} source={require("@/assets/images/osso.png")}></Image>
+                                </View>
+                                <View style={{marginTop:20,flexDirection:"row", alignItems:"flex-end", width:"100%", justifyContent:"center"}}>
+                                    <Text style={{fontSize:38, fontWeight:"bold", color:"#ffffffff"}}>{petData.peso}</Text>
+                                    <Text style={{fontSize:20,marginBottom:5,color:'#fff'}}>kg</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.vacinas}>
+                            <Text style={{fontSize:26,fontWeight:'bold', color:"#ffffffff", marginTop:15, marginBottom:10}}>
+                                Vacinas:
+                            </Text>
+                        
+                            {vacinas.length == 0 ? (
+                                <View style={{ width:"100%"}}>
+                                    
+                                    <Text style={{fontSize:18, color:"#000000ff",width:"60%"}}>Nenhuma vacina registrada</Text>
+                                        
+                                </View>
+                            ) : (
+                                vacinas.map((vacina)=>(
+                                    <View key={vacina.Id_Vacina} style={{width:"100%",backgroundColor:"#fff",padding:10,flexDirection:"row"}}>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"60%"}}>{vacina.Nome} </Text>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%"}}>{Number(vacina.DataProxDose)-Number(vacina.DataVacina)!=0?String(Number(vacina.DataProxDose)-Number(vacina.DataVacina)):"Sem Proxima dose"}dias</Text>
+                                    </View>
+                                ))
+                            )}
+                            <TouchableOpacity activeOpacity={0.9} style={{backgroundColor:"#fff",justifyContent:"center",width:"100%",padding:20,borderBottomLeftRadius:20,borderBottomRightRadius:20,flexDirection:"row"}}onPress={()=>{
+                                        setPopupVisible(true)
+                                        setIsLoading(true)
+                            }}>
+                                <Text style={{fontSize:20, color:"#000000ff",fontWeight:'500'}}>Adicionar Vacina</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.navbar}>
+                            <TouchableWithoutFeedback style={styles.navItem} >
+                                <Image style={styles.navImg} source={require("@/assets/images/forum.png")}></Image>
+                            </TouchableWithoutFeedback>
+                            <View style={styles.here}>
+                                <Link style={styles.navItem} href={{pathname : "/pet", params : {id : nextPet, nextPet: id}}}>
+                                    <Image style={styles.navImg} source={require("@/assets/images/pet.png")}></Image>
+                                </Link>
+                            </View>
+                            <TouchableWithoutFeedback style={styles.navItem} >
+                                <Image style={styles.navImg} source={require("@/assets/images/home.png")}></Image>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback style={styles.navItem} >
+                                <Image style={styles.navImg} source={require("@/assets/images/premium.png")}></Image>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback style={styles.navItem} >
+                                <Image style={styles.navImg} source={require("@/assets/images/chatbot.png")}></Image>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    
+                    </View>
+                ):(
+                    <View style={{justifyContent:"center",alignItems:"center",height:"100%"}}>
+                        <LoadCat></LoadCat>
+                    </View>
+                )   
             ) : (
-                <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+                <View style={{alignItems:"center",height:"100%", paddingBottom:80}}>
                     <View style={styles.topShadow}/>
-                    <Text style={{fontSize:35, fontWeight:"bold",zIndex:10,top:40, position:"absolute", color:"#000000"}}>Página do Pet</Text>
+                    <Text style={{fontSize:35, fontWeight:"900",zIndex:10,top:'5%', position:"absolute", color:"#000000"}}>Página do Pet</Text>
                     <View style={styles.petInfo}>
-                        <Image style={styles.petImage} source={(petData.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                        <Image style={styles.petImage} resizeMode="cover" source={(petData.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
                         <View style={styles.basicInfo}>
                             <View style={{flexDirection:"row", alignItems:"center", width:"60%"}}>
                                 <Text style={styles.nome}>{petData.nome}</Text>
@@ -57,6 +269,58 @@ export default function PagPet() {
                         <Text style={{fontSize:16, color:"#000000ff"}}>{Number(petData.dataNasc) - Number(new Date)}</Text>
                     </View>
                     
+                    <View style={styles.petPeso}>
+                        <View style={styles.racaoInfo}>
+                            <View style={{marginTop:20,flexDirection:"row", alignItems:"center", width:"100%", justifyContent:"space-around",paddingHorizontal:10}}>
+                                <Text style={{fontSize:14, fontWeight:"bold", color:"#000000", width:"60%"}}>Quantidade de Ração</Text>
+                                <Image style={styles.genImg} source={require("@/assets/images/balanca.png")}></Image>
+                            </View>
+                            <View style={{marginTop:20,flexDirection:"row", alignItems:"flex-end", width:"100%", justifyContent:"center"}}>
+                                <Text style={{fontSize:38, fontWeight:"bold", color:"#000000"}}>400</Text>
+                                <Text style={{fontSize:20,marginBottom:5}}>gm</Text>
+                            </View>
+                        </View>
+                        <View style={[styles.racaoInfo,{ backgroundColor:"#805BEF"}]}>
+                            <View style={{marginTop:20,flexDirection:"row", alignItems:"center", width:"100%", justifyContent:"space-around",paddingHorizontal:10}}>
+                                <Text style={{fontSize:14, fontWeight:"bold", color:"#ffffffff", width:"60%"}}>Peso do animal</Text>
+                                <Image style={styles.genImg} source={require("@/assets/images/osso.png")}></Image>
+                            </View>
+                            <View style={{marginTop:20,flexDirection:"row", alignItems:"flex-end", width:"100%", justifyContent:"center"}}>
+                                <Text style={{fontSize:38, fontWeight:"bold", color:"#ffffffff"}}>{petData.peso}</Text>
+                                <Text style={{fontSize:20,marginBottom:5,color:'#fff'}}>kg</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.vacinas}>
+                        <Text style={{fontSize:26,fontWeight:'bold', color:"#ffffffff", marginTop:15, marginBottom:10}}>
+                            Vacinas:
+                        </Text>
+                       
+                        <ScrollView style={{borderBottomLeftRadius:20,borderBottomRightRadius:20}}>
+                            {vacinas.length == 0 ? (
+                                <View style={{ width:"100%"}}>
+                                    
+                                    <Text style={{fontSize:18, color:"#000000ff",width:"60%"}}>Nenhuma vacina registrada</Text>
+                                        
+                                </View>
+                            ) : (
+                                vacinas.map((vacina)=>(
+                                    <View key={vacina.Id_Vacina} style={{width:"100%",backgroundColor:"#fff",padding:10,flexDirection:"row"}}>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"60%"}}>{vacina.Nome} </Text>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%"}}>{Number(vacina.DataProxDose)-Number(vacina.DataVacina)!=0?String(Number(vacina.DataProxDose)-Number(vacina.DataVacina)):"Sem Proxima dose"}dias</Text>
+                                    </View>
+                                ))
+                            )}
+                            <TouchableOpacity activeOpacity={0.9} style={{backgroundColor:"#fff",justifyContent:"center",width:"100%",padding:20,borderBottomLeftRadius:20,borderBottomRightRadius:20,flexDirection:"row"}}onPress={()=>{
+                                        setPopupVisible(true)
+                                        setIsLoading(true)
+                            }}>
+                                <Text style={{fontSize:20, color:"#000000ff",fontWeight:'500'}}>Adicionar Vacina</Text>
+                            </TouchableOpacity>
+                        </ScrollView>
+                    </View>
+
                     <View style={styles.navbar}>
                         <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/forum')}>
                             <Image style={styles.navImg} source={require("@/assets/images/forum.png")}></Image>
@@ -83,9 +347,19 @@ export default function PagPet() {
 }
 
 const styles = StyleSheet.create({
+    backPopUp:{
+        alignItems:"center",
+        width: '100%',
+        height: "150%",
+        backgroundColor: '#000000aa',
+        top: 0,
+        position: 'absolute',
+        left: 0,
+        zIndex:11,
+    },
     topShadow:{
         width: '100%',
-        height: 150,
+        height: "20%",
         backgroundColor: '#F2C438',
         top: 0,
         position: 'absolute',
@@ -101,8 +375,8 @@ const styles = StyleSheet.create({
     petInfo:{
         flex:1,
         width: '85%',
-        maxHeight: '35%',
-        top: 110,
+        height: '35%',
+        top: "13%",
         position: 'absolute',
         backgroundColor: '#FFFAEF',
         padding: 20,
@@ -111,7 +385,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 10,
     },
     petImage:{
         maxWidth: "100%",
@@ -141,6 +415,47 @@ const styles = StyleSheet.create({
         width:"100%",
         alignItems:"center",
         marginBottom:10,
+    },
+    petPeso:{
+        flex:1,
+        width: '85%',
+        height: '17%',
+        position: 'absolute',
+        top: '50%',
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center",
+    },
+    racaoInfo:{
+        alignItems:"center",
+        width: '45%',
+        height: '100%',
+        borderRadius: 20,
+        backgroundColor: '#FFFAEF',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 10,
+    },
+    vacinas:{
+        width: '85%',
+        maxHeight:"28%",
+        position: 'absolute',
+        top: '70%',
+        backgroundColor: '#805BEF',
+        flexDirection:"column",
+        alignItems:"center",
+        justifyContent:"space-between",
+        boxSizing:'border-box',
+        borderRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 10,
+        borderColor:"#555555ff",
+        borderWidth:1,
     },
     navbar: {
         flexDirection: 'row',
