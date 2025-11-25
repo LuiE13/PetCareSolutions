@@ -4,9 +4,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { router, usePathname } from "expo-router";
 import { useState, useEffect } from "react";
 import { DatePica} from "@/components/datepicker"
-import { Usuario } from "@/objects/usuario";
+import {} from "react-native-toast-message"
 import{ Pet } from "@/objects/pet";
-import * as sqlite from "expo-sqlite";
+
 import { useDatabase } from "@/database/useDatabase";
 
 

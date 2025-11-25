@@ -8,7 +8,7 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             Senha varchar(50),
             Email varchar(150),
             Premium tinyint(1) DEFAULT '0',
-            Data_Nascimento date,
+            Data_Nascimento string,
             Foto blob,
             Tema text DEFAULT 'Claro',
             Idioma text,
@@ -41,8 +41,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             Id_Usuario interger NOT NULL,
             titulo varchar(150),
             descricao text,
-            Data date NOT NULL,
-            horario time
+            Data varchar(20) NOT NULL,
+            horario varchar(20)
         )`);
     await database.execAsync(`
         CREATE TABLE IF NOT EXISTS likes (
@@ -56,7 +56,7 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             Id_Usuario interger NOT NULL,
             Nome varchar(100) NOT NULL,
             Especie text NOT NULL,
-            Data_nascimento date ,
+            Data_nascimento varchar(20),
             Raca varchar(100),
             Peso decimal(5,2),
             Cor varchar(50),
@@ -71,8 +71,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             id_usuario interger,
             id_pet interger,
             nomeVac varchar(100),
-            dataVacina date,
-            dataProxDose date
+            dataVacina varchar(20),
+            dataProxDose varchar(20)
         );
     `)
 

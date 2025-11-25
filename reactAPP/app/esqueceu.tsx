@@ -1,14 +1,19 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Input } from '../components/input';
 import { router } from 'expo-router';
+import { useState } from "react";
 
 export default function Entre() {
+    const [email,setEmail] = useState('')
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={require('../assets/images/logoColor.png')} />
             <Text style={styles.title}>Recuperação de senha</Text>
             <Text style={{textAlign: "center"}}>Insira seu email para receber as instruções de recuperação de senha.</Text>
-            <Input placeholder="Email:" />
+            <Input placeholder="Email:" valueChange={(txt) => {
+                setEmail(txt)
+                
+                }} value={email}/>
             <TouchableOpacity style={styles.button} activeOpacity={0.9} onPress={() => router.navigate('/entre')}>
                 <Text style={styles.buttonText}>Enviar link de recuperação</Text>
             </TouchableOpacity>

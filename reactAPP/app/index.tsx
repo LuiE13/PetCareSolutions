@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 30,
         fontFamily: 'Roboto_700Bold',
+        textAlign:'center'
     },
     entrar: {
         marginBlockStart: 30,

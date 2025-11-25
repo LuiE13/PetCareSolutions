@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         height: 70,
         backgroundColor: '#805BEF',
         position: 'absolute',
-        bottom: 0,
+        bottom: 10,
         width: '90%',
         paddingBottom: 10,
         paddingTop: 10,
@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     },
     navItem: {  
         alignItems: 'center',
+        justifyContent:'center'
     },
     navText: {
         fontSize: 12,
@@ -25,15 +26,15 @@ export const styles = StyleSheet.create({
         color: '#333',
     },
     navImg:{
-        height:35,
-        width:35
+        height:40,
+        width:40
     },
     here:{
         width:55,
         height:55,
         backgroundColor:"#F2C438", 
         borderRadius:35, 
-        padding:15
+        paddingBottom:7
     },
     pata:{
         height:35,

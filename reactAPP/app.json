@@ -8,9 +8,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/icons/splash-icon.png",
+      "image": "./assets/icons/image.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#805BEF"
     },
     "ios": {
       "supportsTablet": true
@@ -28,13 +28,24 @@
     },
     "plugins": [
       "expo-sqlite",
-      ["expo-custom-assets",
+      [
+        "expo-custom-assets",
         {
-          "assetsPaths": ["./assets/animation"]
-      }]
+          "assetsPaths": [
+            "./assets/animation/"
+          ]
+        }
+      ],
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "70b8b6c5-8e21-445a-9bc9-010a5df98af5"
+      }
+    },
+    "owner": "luie"
   }
 }

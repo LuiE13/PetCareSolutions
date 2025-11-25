@@ -4,10 +4,10 @@ class Vacina {
     Id_Pet: number
     Id_Usuario: number
     Nome: string
-    DataVacina: Date
-    DataProxDose?: Date
+    DataVacina: string
+    DataProxDose?: string
 
-    constructor(Id_Vacina:number,Id_Pet: number, Id_Usuario: number, Nome: string, DataVacina: Date, DataProxDose?: Date) {
+    constructor(Id_Vacina:number,Id_Pet: number, Id_Usuario: number, Nome: string, DataVacina: string, DataProxDose?: string) {
         this.Id_Vacina = Id_Vacina
         this.Id_Pet = Id_Pet
         this.Id_Usuario = Id_Usuario

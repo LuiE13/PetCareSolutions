@@ -7,6 +7,7 @@ import { Usuario } from "@/objects/usuario";
 import NetInfo from"@react-native-community/netinfo";
 import { Pet } from "@/objects/pet";
 import LoadCat from "@/components/loadcat";
+import { Buffer } from 'buffer'
 
 
 export default function Home() {
@@ -38,22 +39,24 @@ export default function Home() {
         
         NetInfo.fetch().then(state => {
             if(!state.isConnected){
+                
                 db.getAllPets(usuario.Id_usuario||0).then((dados)=>{
                     if(dados instanceof Array){
                         dados.forEach((petData)=>{
-                            if(firstPet===undefined){
-                                setFirstPet(String(petData.Id_pet))
-                                
-                                setNextPet(firstPet) 
-                            }
-                            if(nextPet==firstPet && petData.Id_pet!=Number(firstPet)){
+                            if(firstSet && !nextSet){
                                 setNextPet(String(petData.Id_pet))
                             }
+                            if(firstSet==false){
+                                setFirstPet(String(petData.Id_pet))
+                                
+                                firstSet = true 
+                            }
+                            
                         
                             const pet = new Pet(
                                 petData.Especie,
                                 petData.Nome,
-                                new Date(petData.Data_Nascimento),
+                                petData.Data_nascimento,
                                 petData.Raca,
                                 petData.Peso,
                                 petData.Cor,
@@ -75,16 +78,18 @@ export default function Home() {
                     async ()=> {
                          
                         usuario.pets?.forEach(async(pet)=>{
-                            if(!firstSet){
-                                setFirstPet(String(pet.id))
-                                setNextPet(firstPet) 
-                                firstSet = true;
-                            }
-                            if(nextSet === false && String(pet.id) !== firstPet){
+                            if(firstSet && !nextSet){
                                 setNextPet(String(pet.id))
-                                nextSet = true;
                             }
+                            if(firstSet==false){
+                                setFirstPet(String(pet.id))
+                                
+                                firstSet = true 
+                            }
+                            
                             await db.create(pet)
+                            
+                            return
                         })
                         db.getAllPets(usuario.Id_usuario||0).then((dados)=>{
                             
@@ -94,7 +99,7 @@ export default function Home() {
                                     const pet = new Pet(
                                         petData.Especie,
                                         petData.Nome,
-                                        new Date,
+                                        petData.Data_nascimento,
                                         petData.Raca,
                                         petData.Peso,
                                         petData.Cor,
@@ -102,8 +107,9 @@ export default function Home() {
                                         petData.Sexo,
                                         petData.Id_Usuario
                                     )
-                                    pet.id = petData.Id_pet
                                     
+                                    pet.id = petData.Id_pet
+                                    pet.descricao = petData.descricao
                                     usuario.pets?.forEach((p)=>{
                                         if(p.id==pet.id){
                                             idExists.push(Number(pet.id))
@@ -149,9 +155,7 @@ export default function Home() {
                     <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
                         <LoadCat/>
                     </View>
-                    <View style={styles.navbar}>
-                        
-                    </View>
+                    <NavBar here="home" idPet={firstPet||''} idNextPet={nextPet||''}></NavBar>
                 </View>
                 
             ):(
@@ -199,7 +203,7 @@ export default function Home() {
                                 keyExtractor={item => String(item.id)}
                                 renderItem={({ item }) => (
                                     <Link href={{pathname : "/pet", params : {id : item.id, nextPet: nextPet}}} style={[styles.petItem]}>
-                                        <Image style={styles.imageItem} source={(item.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                                        <Image style={styles.imageItem} source={item.photo?{uri:item.photo}:(item.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
                                         <View style={{flexDirection:"row", alignItems:"center",width:"90%"}}>
                                             <Text style={{fontSize:20,color:"#000000",fontWeight:"bold"}}>{item.nome}</Text>
                                             <Image style={styles.imageSexoItem} source={(item.genero=="macho"?require("@/assets/images/macho.png"):require("@/assets/images/femea.png"))}></Image>
@@ -220,12 +224,12 @@ export default function Home() {
                         </View>
 
                         
-                        <TouchableOpacity activeOpacity={0.8} style={styles.anuncio} onPress={() => console.log('/home')}>
+                        <TouchableOpacity activeOpacity={0.8} style={styles.anuncio} onPress={() => router.push({pathname:'/forum', params:{id:firstPet,idNextPet:nextPet}})}>
                             <Image style={styles.anuncioImage} source={require("@/assets/images/anuncioC.png")}></Image>
                         </TouchableOpacity>
                     </ScrollView>
                     
-                    <NavBar idPet="1" idNextPet="4" here="home"></NavBar>
+                    <NavBar idPet={firstPet||''} idNextPet={nextPet||''} here="home"></NavBar>
                 </View>
             )
             
@@ -236,16 +240,16 @@ export default function Home() {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        width:'100%'
     },
     tela:{
         gap:50,
         backgroundColor:"#FFFFFF",
         justifyContent:"center",
         alignItems:"center",
-        flex:1,
+        padding:0,
         width:"100%",
         height:"100%",
     },
@@ -257,7 +261,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        height: 85,
+        height: 105,
         backgroundColor: "#D2C3FF",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 8 },
@@ -277,13 +281,14 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 5},
         shadowOpacity: 0.25,
         shadowRadius: 5,
+        paddingTop:20,
         borderBottomLeftRadius: 35,
         borderBottomRightRadius: 35,
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
         width:"100%",
-        height:85,
+        height:105,
     },
     perfil:{
         height:50,
@@ -291,7 +296,7 @@ const styles = StyleSheet.create({
     },
     lembrete:{
         backgroundColor:"#805BEF",
-        width:"80%",
+        width:"90%",
         zIndex:1,
         borderRadius:20,
         flexDirection:"row",
@@ -378,42 +383,13 @@ const styles = StyleSheet.create({
         width:"90%",
         elevation: 15,
         shadowColor: '#000000ff',
+        
     },
     anuncioImage:{
         width:"100%",
         height:220,
+        resizeMode:'cover',
+        borderRadius:10
     },
-    navbar: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: 70,
-        backgroundColor: '#805BEF',
-        position: 'absolute',
-        bottom: 0,
-        width: '90%',
-        paddingBottom: 10,
-        paddingTop: 10,
-        marginBottom: 10,
-        borderRadius: 35,
-        elevation: 10,
-        shadowColor: '#000000ff',
-    },
-    navItem: {  
-        alignItems: 'center',
-    },
-    navText: {
-        fontSize: 12,
-        marginTop: 4,
-        color: '#333',
-    },
-    here:{
-        width:55,
-        height:55,
-        backgroundColor:"#F2C438", 
-        borderRadius:35, 
-        justifyContent:"center", 
-        alignItems:"center", 
-        paddingBottom:5,
-    }
+    
 });

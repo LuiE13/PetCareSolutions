@@ -1,6 +1,8 @@
-import { View , Text, StyleSheet, Image, TouchableWithoutFeedback, ScrollView, TouchableOpacity} from "react-native";
+import { View , Text, StyleSheet, Image, TouchableWithoutFeedback, ScrollView, TouchableOpacity, ImageSourcePropType, Platform, Alert, Linking} from "react-native";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useState, useEffect, use } from "react";
+import RNFS from 'react-native-fs'
+import { Buffer } from 'buffer'
 import {Input} from "@/components/input";
 import { Pet } from "@/objects/pet";
 import { Vacina } from "@/objects/vacina";
@@ -8,9 +10,15 @@ import NetInfo from "@react-native-community/netinfo";
 import DatePicker from "@react-native-community/datetimepicker";
 import { useDatabase } from "@/database/useDatabase";
 import LoadCat from "@/components/loadcat";
+import * as ImagePicker from 'expo-image-picker'
+import { NavBar } from "@/components/navbar";
+import { platform } from "os";
 export default function PagPet() {
     const database = useDatabase()
-    const [petData, setPetData] = useState<Pet>(new Pet("","0",new Date,"",0,"","","",0,));
+    const [bloba,setBlob]= useState<any>()
+    const [petData, setPetData] = useState<Pet>(new Pet("","0",'',"",0,"","","",0,));
+    const [anos,setAnos] = useState('') 
+    const [prox,setProx] = useState('')
     const [vacinas, setVacinas] = useState<Vacina[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [popUpVisible, setPopupVisible] = useState(false);
@@ -19,6 +27,84 @@ export default function PagPet() {
     const [nextDoseDate, setNextDoseDate] = useState<Date>();
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showDateDosePicker, setShowDateDosePicker] = useState(false);
+    const hj = new Date().getFullYear()
+    const [status,requestPermission] = ImagePicker.useMediaLibraryPermissions()
+
+    const pickImage = async () =>{
+        try {
+            if (Platform.OS != 'web') {
+                const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync()
+                console.log(status)
+                if(status !=='granted'){
+                    const permissionResponse = await requestPermission()
+                    if(permissionResponse.status !=='granted'){
+                        Alert.alert(
+                            "Permissão negada",
+                            "Você precisa liberar o aplicativo a selecionar uma imagem da galeria",
+                            [
+                                {
+                                    text:"Abrir permissões",
+                                    onPress:()=>{
+                                        Platform.OS=='ios'?
+                                        Linking.openURL('app-settings:'):
+                                        Linking.openSettings()
+                                    }
+                                },
+                                {
+                                    text:'Cancelar'
+                                }
+                            ]
+                        )
+                    }
+                    return
+                }
+            }
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes:['images'],
+                allowsEditing:true,
+                aspect:[4,3],
+                quality:1,
+                base64:true,
+            })
+            
+            if(!result.canceled){
+                 
+                console.log(result.assets[0].mimeType)
+                //@ts-ignore
+                saveBase64AsFile(result.assets[0].base64,"imagePet",result.assets[0].mimeType)
+                
+                setBlob(result.assets[0].uri)
+            }
+        } 
+
+
+        
+        catch (error) {
+            throw error
+        }
+    }
+
+    const saveBase64AsFile = async (base64String : string, fileName: string, mimeType: string) => {
+        // A string base64 pura, sem o cabeçalho 'data:...'
+        const rawBase64Data = base64String.split(',').pop(); 
+
+        const path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        //@ts-ignore
+        await RNFS.writeFile(path, rawBase64Data, 'base64');
+
+       
+
+        
+        const files ={
+            uri: `file://${path}`,
+            type: mimeType,
+            name: fileName,
+        };
+        await  petData.update( files)
+        // RNFS.unlink(path);
+    };
+
+    
 
     function selectData(){
         setShowDatePicker(true);
@@ -26,16 +112,23 @@ export default function PagPet() {
 
     function selectDoseData(){
         setShowDateDosePicker(true);
-        console.log("aqui");
+        
     }
 
     const { id } = useLocalSearchParams<{ id: string }>();
     const { nextPet } = useLocalSearchParams<{ nextPet: string }>();
+    
+    
+   
+
+    
+    
+
     async function fetchPetData() {
         
         NetInfo.fetch().then(state => {
             if(!state.isConnected){
-                const pet = new Pet("","0",new Date(),"",0,"","","",0,);
+                const pet = new Pet("","0",'',"",0,"","","",0,);
                 database.getPet(Number(id)).then((data)=>{
                     if(data.length>0){
                         pet.id = data[0].Id_pet;
@@ -44,25 +137,29 @@ export default function PagPet() {
                         pet.nome = data[0].Nome;    
                         pet.especie = data[0].Especie;
                         
-                        pet.dataNasc = String(new Date(data[0].Data_Nascimento).getFullYear())+"-"+String(new Date(data[0].Data_Nascimento).getMonth()+1)+"-"+String(new Date(data[0].Data_Nascimento).getUTCDate());
+                        pet.dataNasc = data[0].Data_nascimento
                         pet.raca = data[0].Raca;
                         pet.peso = data[0].Peso;
                         pet.cor = data[0].Cor;
                         pet.genero = data[0].Sexo;
                         pet.porte = data[0].Porte;
+                        pet.descricao = data[0].descricao
                         setPetData(pet);
+                        
+                        setBlob(pet.photo)
+                        
                     }
                 })
                 
                 database.getVacs(Number(id)).then((data)=>{
                     data.forEach((vacina)=>{
-                        pet.vacinas?.push(new Vacina(Number(vacina.Id_vacina),Number(vacina.id_pet),Number(vacina.id_usuario),String(vacina.nomeVac),new Date(vacina.dataVacina),vacina.dataProxDose?new Date(vacina.dataProxDose):undefined))
+                        pet.vacinas?.push(new Vacina(Number(vacina.Id_vacina),Number(vacina.id_pet),Number(vacina.id_usuario),String(vacina.nomeVac),vacina.dataVacina,vacina.dataProxDose?vacina.dataProxDose:undefined))
                     })
                     setVacinas(pet.vacinas||[]);
                     setIsLoading(false);
                 })
             }else{
-                const pet = new Pet("","0",new Date(),"",0,"","","",0,);
+                const pet = new Pet("","0",'',"",0,"","","",0,);
                 
                 database.getPet(Number(id)).then((data)=>{
                     if(data.length>0){
@@ -70,30 +167,73 @@ export default function PagPet() {
                         pet.donoId = data[0].Id_Usuario;
                         pet.nome = data[0].Nome;    
                         pet.especie = data[0].Especie;
-                        pet.dataNasc =  String(new Date(data[0].Data_Nascimento).getFullYear())+"-"+String(new Date(data[0].Data_Nascimento).getMonth()+1)+"-"+String(new Date(data[0].Data_Nascimento).getUTCDate())||""
+                        pet.dataNasc =  data[0].Data_nascimento
                         pet.raca = data[0].Raca;
                         pet.peso = data[0].Peso;
                         pet.cor = data[0].Cor;
                         pet.genero = data[0].Sexo;
                         pet.porte = data[0].Porte;
+                        pet.descricao = data[0].descricao
+                        // console.log(data[0].Foto)
+                        setBlob(data[0].Foto)
+                        
+                        
                         setPetData(pet);
+                        
+                        if (Number(new Date().getFullYear()) - Number(data[0].Data_nascimento.slice(0,4))>0) {
+                            if (Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7))>0) {
+                                let anos = String(Number(new Date().getFullYear())-Number(data[0].Data_nascimento.slice(0,4)))
+                                let meses = String(Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7)))
+                                setAnos(anos+','+meses+' anos')
+                            }else if(Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7))<0) {
+                                let anos = String(Number(new Date().getFullYear())-Number(data[0].Data_nascimento.slice(0,4)))
+                                let meses = String(Number(data[0].Data_nascimento.slice(5,7))-Number(new Date().getMonth()+1))
+                                setAnos(anos+','+meses+' anos')
+                            }else{
+                                let anos = String(Number(new Date().getFullYear())-Number(data[0].Data_nascimento.slice(0,4)))
+                                let meses = String(Number(data[0].Data_nascimento.slice(5,7))-Number(new Date().getMonth()+1))
+                                setAnos(anos+','+meses+' anos')
+                            }
+                        }else{
+                            if (Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7))>0) {
+                                let meses = String(Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7)))
+                                setAnos(meses+' meses')
+                            }else if(Number(new Date().getMonth()+1)-Number(data[0].Data_nascimento.slice(5,7))<0) {
+                                let meses = String(Number(data[0].Data_nascimento.slice(5,7))-Number(new Date().getMonth()+1))
+                                setAnos(meses+' meses')
+                            }else{
+                                let meses = String(Number(data[0].Data_nascimento.slice(5,7))-Number(new Date().getMonth()+1))
+                                setAnos(meses+' meses')
+                            }
+                        }
+                        
                     }
-                    pet.searchVacinas().then(()=>{
+                    
+                   
+                    pet.searchVacinas().then((status)=>{
                         
-                        pet.vacinas?.forEach(async(vacina)=>{
-                            database.create(vacina)
+                        if (status == 0) {
+                            pet.vacinas?.forEach(async(vacina)=>{
+                                database.create(vacina)
+                                
+                            })
                             
-                        })
+                            setVacinas(pet.vacinas||[]);
+                            
+                            setIsLoading(false);
+                            
+                        }else{
+                            setVacinas([])
+                            setIsLoading(false);
+                        }
                         
-                        setVacinas(pet.vacinas||[]);
-                        setIsLoading(false);
                     })
                 })   
             }
         })
         
     }
-
+    
     return (
         <View onLayout={fetchPetData} style={{flex:1, backgroundColor:"#FFFAEF"}}>
             {isLoading ? (
@@ -164,7 +304,7 @@ export default function PagPet() {
                         <View style={styles.topShadow}/>
                         <Text style={{fontSize:35, fontWeight:"900",zIndex:10,top:'5%', position:"absolute", color:"#000000"}}>Página do Pet</Text>
                         <View style={styles.petInfo}>
-                            <Image style={styles.petImage} resizeMode="cover" source={(petData.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                            <Image style={styles.petImage} resizeMode="cover" source={(petData.especie==="Cão"?require('@/assets/images/cachorro.jpeg'):require('@/assets/images/gato.jpeg'))}></Image>
                             <View style={styles.basicInfo}>
                                 <View style={{flexDirection:"row", alignItems:"center", width:"60%"}}>
                                     <Text style={styles.nome}>{petData.nome}</Text>
@@ -173,7 +313,7 @@ export default function PagPet() {
                                 <Text style={styles.raca}>{petData.raca}</Text>
                             </View>
                             <Text style={{fontSize:16, color:"#000000ff"}}>{petData.especie}</Text>
-                            <Text style={{fontSize:16, color:"#000000ff"}}>{Number(petData.dataNasc) - Number(new Date)}</Text>
+                            <Text style={{fontSize:16, color:"#000000ff"}}>{anos}</Text>
                         </View>
                         
                         <View style={styles.petPeso}>
@@ -214,7 +354,7 @@ export default function PagPet() {
                                 vacinas.map((vacina)=>(
                                     <View key={vacina.Id_Vacina} style={{width:"100%",backgroundColor:"#fff",padding:10,flexDirection:"row"}}>
                                         <Text style={{fontSize:22, color:"#000000ff",width:"60%"}}>{vacina.Nome} </Text>
-                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%"}}>{Number(vacina.DataProxDose)-Number(vacina.DataVacina)!=0?String(Number(vacina.DataProxDose)-Number(vacina.DataVacina)):"Sem Proxima dose"}dias</Text>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%"}}>| {vacina.DataProxDose?(Number(vacina.DataProxDose.slice(8,10))-Number(vacina.DataVacina.slice(8,10))+((Number(vacina.DataProxDose.slice(5,7))-Number(vacina.DataVacina.slice(5,7)))*30))+' dias':'Sem Próxima Dose'}</Text>
                                     </View>
                                 ))
                             )}
@@ -250,14 +390,20 @@ export default function PagPet() {
                 ):(
                     <View style={{justifyContent:"center",alignItems:"center",height:"100%"}}>
                         <LoadCat></LoadCat>
+                        <NavBar here="pet" idPet={nextPet} idNextPet={id}></NavBar>
                     </View>
                 )   
-            ) : (
+            ) : ( 
                 <View style={{alignItems:"center",height:"100%", paddingBottom:80}}>
                     <View style={styles.topShadow}/>
                     <Text style={{fontSize:35, fontWeight:"900",zIndex:10,top:'5%', position:"absolute", color:"#000000"}}>Página do Pet</Text>
                     <View style={styles.petInfo}>
-                        <Image style={styles.petImage} resizeMode="cover" source={(petData.especie=="Cão"?require("@/assets/images/cachorro.jpeg"):require("@/assets/images/gato.jpeg"))}></Image>
+                        
+                        <TouchableOpacity activeOpacity={0.8} style={styles.addButton} onPress={pickImage}>
+                            <Image style={{height:30,width:30, transform: [{ rotate: '90deg' }]}} source={require("@/assets/images/lapiscor.png")}></Image>
+                        </TouchableOpacity>
+                        
+                        <Image style={styles.petImage} resizeMode="cover" source={bloba?{uri:bloba}:(petData.especie==="Cão"?require('@/assets/images/cachorro.jpeg'):require('@/assets/images/gato.jpeg'))}></Image>
                         <View style={styles.basicInfo}>
                             <View style={{flexDirection:"row", alignItems:"center", width:"60%"}}>
                                 <Text style={styles.nome}>{petData.nome}</Text>
@@ -266,7 +412,7 @@ export default function PagPet() {
                             <Text style={styles.raca}>{petData.raca}</Text>
                         </View>
                         <Text style={{fontSize:16, color:"#000000ff"}}>{petData.especie}</Text>
-                        <Text style={{fontSize:16, color:"#000000ff"}}>{Number(petData.dataNasc) - Number(new Date)}</Text>
+                        <Text style={{fontSize:16, color:"#000000ff"}}>{anos}</Text>
                     </View>
                     
                     <View style={styles.petPeso}>
@@ -297,9 +443,9 @@ export default function PagPet() {
                             Vacinas:
                         </Text>
                        
-                        <ScrollView style={{borderBottomLeftRadius:20,borderBottomRightRadius:20}}>
+                        <ScrollView style={{borderBottomLeftRadius:20,borderBottomRightRadius:20,width:'100%'}}>
                             {vacinas.length == 0 ? (
-                                <View style={{ width:"100%"}}>
+                                <View style={{width:"100%",backgroundColor:"#fff",padding:10,flexDirection:"row"}}>
                                     
                                     <Text style={{fontSize:18, color:"#000000ff",width:"60%"}}>Nenhuma vacina registrada</Text>
                                         
@@ -307,8 +453,9 @@ export default function PagPet() {
                             ) : (
                                 vacinas.map((vacina)=>(
                                     <View key={vacina.Id_Vacina} style={{width:"100%",backgroundColor:"#fff",padding:10,flexDirection:"row"}}>
-                                        <Text style={{fontSize:22, color:"#000000ff",width:"60%"}}>{vacina.Nome} </Text>
-                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%"}}>{Number(vacina.DataProxDose)-Number(vacina.DataVacina)!=0?String(Number(vacina.DataProxDose)-Number(vacina.DataVacina)):"Sem Proxima dose"}dias</Text>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"57%"}}>{vacina.Nome} </Text>
+                                        <Text style={{fontSize:22, color:"#000000ff"}}>|</Text>
+                                        <Text style={{fontSize:22, color:"#000000ff",width:"40%",textAlign:'right'}}>  {vacina.DataProxDose?(Number(vacina.DataProxDose.slice(8,10))-Number(vacina.DataVacina.slice(8,10))+((Number(vacina.DataProxDose.slice(5,7))-Number(vacina.DataVacina.slice(5,7)))*30))+' dias':'Sem Doses'}</Text>
                                     </View>
                                 ))
                             )}
@@ -321,25 +468,7 @@ export default function PagPet() {
                         </ScrollView>
                     </View>
 
-                    <View style={styles.navbar}>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log('/forum')}>
-                            <Image style={styles.navImg} source={require("@/assets/images/forum.png")}></Image>
-                        </TouchableWithoutFeedback>
-                        <View style={styles.here}>
-                            <Link style={styles.navItem} href={{pathname : "/pet", params : {id : nextPet, nextPet: id}}}>
-                                <Image style={styles.navImg} source={require("@/assets/images/pet.png")}></Image>
-                            </Link>
-                        </View>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => router.push('/home')}>
-                            <Image style={styles.navImg} source={require("@/assets/images/home.png")}></Image>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={() => console.log("Premium")}>
-                            <Image style={styles.navImg} source={require("@/assets/images/premium.png")}></Image>
-                        </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback style={styles.navItem} onPress={ () => console.log('/chatbot')}>
-                            <Image style={styles.navImg} source={require("@/assets/images/chatbot.png")}></Image>
-                        </TouchableWithoutFeedback>
-                    </View>
+                    <NavBar here="pet" idPet={nextPet} idNextPet={id}></NavBar>
                 </View>
             )}
         </View>
@@ -388,9 +517,25 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     petImage:{
-        maxWidth: "100%",
-        maxHeight: "65%",
-        borderRadius: 20,
+        width: '100%',      // garante largura no container
+        height: 180,        // ajuste conforme layout desejado
+        borderRadius: 12,
+    },
+    addButton:{
+        position:'absolute',
+        zIndex:101,
+        top:150,
+        right:30,
+        height:40,
+        width:40,
+        backgroundColor:"#ffffffff",
+        elevation: 10,
+        shadowColor: '#000000ff',
+        shadowOffset: {width: 0, height: 0},
+        justifyContent:"center",
+        alignItems:"center",
+        borderRadius:50,
+        marginBottom:30,
     },
     nome:{
         fontSize:29,
@@ -446,7 +591,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#805BEF',
         flexDirection:"column",
         alignItems:"center",
-        justifyContent:"space-between",
         boxSizing:'border-box',
         borderRadius: 20,
         shadowColor: '#000',
@@ -494,4 +638,5 @@ const styles = StyleSheet.create({
         alignItems:"center", 
         paddingBottom:5,
     }
-});
+})
+

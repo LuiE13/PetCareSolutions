@@ -1,9 +1,11 @@
 import { SQLiteProvider } from "expo-sqlite";
 import { Slot, Stack, Link} from "expo-router";
 import { initializeDatabase } from "@/database/initializeDatabase";
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 
 export default function layout(){
+    SystemNavigationBar.fullScreen(true); 
     return(
         <SQLiteProvider databaseName="petcare.db" onInit={initializeDatabase}>
             <Stack screenOptions={{headerShown:false}}/>

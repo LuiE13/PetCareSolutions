@@ -1,14 +1,14 @@
 
 import { use } from "react";
 import { Pet } from "./pet";
-
+import { Buffer } from 'buffer'
 
 class Usuario {
     public Id_usuario: number | undefined
     public nome: string | undefined
     public email: string 
     public senha: string 
-    public dataNascimento: Date | undefined
+    public dataNascimento: string | undefined
     public fotoPerfil?: string
     public premium: boolean = false
     public notificacoes: boolean = true
@@ -17,7 +17,7 @@ class Usuario {
     public pets?: Pet[]
 
 
-    constructor(  Email: string , Senha: string ,Nome?: string , Data_nascimento?: Date) {
+    constructor(  Email: string , Senha: string ,Nome?: string , Data_nascimento?: string) {
         this.nome = Nome
         this.email = Email
         this.senha = Senha
@@ -85,7 +85,7 @@ class Usuario {
                 this.nome = jsonBody.Nome
                 this.email = jsonBody.Email 
                 this.senha = jsonBody.Senha 
-                this.dataNascimento = jsonBody.Data_Nascimento
+                this.dataNascimento = jsonBody.Data_Nascimento.slice(0,10)
                 this.fotoPerfil = jsonBody.Foto
                 this.premium = jsonBody.Premium
                 this.notificacoes = jsonBody.Notificacao
@@ -146,9 +146,26 @@ class Usuario {
         }).then(dados=>{
             dados.map((pet:any)=>{
                 
-                const animal = new Pet(pet.Especie,pet.Nome,new Date(pet.data_nascimento),pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
+                const animal = new Pet(pet.Especie,pet.Nome,pet.data_nascimento.slice(0,10),pet.Raca,pet.Peso,pet.Cor,pet.Porte,pet.sexo,pet.Id_Usuario)
                 animal.id = pet.id_pet
+                animal.descricao = pet.descricao_saude
                 
+                animal.uriFoto = pet.foto.data
+                if(pet.foto.data.length!=0) {
+                    
+                    const buffer: Buffer = Buffer.from(pet.foto.data);
+                    
+                    // 2. Converter o Buffer para uma string Base64
+                    const base64String: string = buffer.toString('base64');
+                    
+                    // 3. Montar a URI completa (Data URL)
+                    const uri: string = `data:image/jpeg;base64,${base64String}`;
+                    // data[0].Foto
+                    
+                    animal.photo = uri
+                }
+                // proximo passo é atualizar no banco (local e nuvem) quando seleciona imagem
+                // terminar os posts <amanhã^
                 this.addPet(animal)
                 
             })
