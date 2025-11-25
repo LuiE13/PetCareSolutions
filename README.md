@@ -15,69 +15,77 @@
 
 ### Linguagens:
 
-|     | Icone                         | Usado para:                                                                                                                                                                   |
-| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white) | Programação do alimentador automatico                                                                         |
+|     | Icone                         | Usado para:                 |
+| :-: | :---------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white) | Programação do alimentador automatico          |
 | 2   | ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) | Desenvolvimento da API de comunicação com servidor, aplicação e alimentador    |
-| 3   | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | Utilização e modelagem dos prompts para a IA                                                         |
-| 4   | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) | Linguagem principal para o desenvolvimento do aplicativo                           |
+| 3   | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) | Linguagem principal para o desenvolvimento do aplicativo    |
 
 
 ### IA:
 
-|     | Icone                         | Usado para:                                                                                                                                                                    |
-| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     | Icone                         | Usado para:               |
+| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | ![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white) | Criação de um chatbot dentro do app, além de outras funcionalidades menores   |
 
 ### Banco de dados e servidor:
 
-|     | Icone                         | Usado para:                                                                                                                                                                     |
-| :-: | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) | Sistema gerenciador do banco                                                                           |
-| 2   | ![Render]([https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)) | Hospedagem da API  |
-| 3   | ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) | Gerenciador do dados localmente na aplicação, para funcionamento sem inthernet                   |
+|     | Icone                         | Usado para:            |
+| :-: | :---------------------------- | :-------------------- |
+| 1   | ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) | Sistema gerenciador do banco       |
+| 2   | ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white) | Hospedagem da API  |
+| 3   | ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) | Gerenciador do dados localmente na aplicação, para funcionamento sem inthernet |
 
 
 ### IDE's e gerenciadores de pacote
 
-|     | Icone                         | Usado para:                                                                                                                                                                   |
-| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) | Desenvolvimento da aplicação e da API                     |
+|     | Icone                         | Usado para:     |
+| :-: | :---------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) | Desenvolvimento da aplicação e da API    |
+| 2   | ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white) | Gerenciamento das dependencias do Projeto |
 
 
 ### Versionamento e organização:
-|     | Icone                         | Usado para:                                                                                                                                                                   |
-| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) | Controle de versão local                                                                                |
-| 2   | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) | Contole de versão e armazenamento em nuvem                                                     |
-| 3   | ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) | Contole de ponto, metas, calendario                                                            |
-| 4   | ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white) | Armazenamento dos artefatos do projeto (Prototipos, modelos, referencias, etc)      |
+|     | Icone                         | Usado para:      |
+| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) | Controle de versão local    |
+| 2   | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) | Contole de versão e armazenamento em nuvem    |
+| 3   | ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) | Contole de ponto, metas, calendario        |
+| 4   | ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white) | Armazenamento dos artefatos do projeto (Prototipos, modelos, referencias, etc) |
 
 
 ### Design:
-|     | Icone                         | Usado para:                                                                                                                                                                   |
+|     | Icone                         | Usado para:    |
 | :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) | Prototipagem de alta                                                                              |
-| 2   | ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) | Slides para apresentação do projeto, criação de logos                                             |
+| 1   | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) | Prototipagem de alta fidelidade          |
+| 2   | ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=for-the-badge&logo=Canva&logoColor=white) | Slides para apresentação do projeto, criação de logos        |
 
 
 ### Portabilidade para:
-|     | Icone                         | Especificações:                                                                                                                                                               |
-| :-: | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) | Android 35, Build Nativa                                                             |
+|     | Icone                         | Especificações:     |
+| :-: | :---------------------------- | :------------- |
+| 1   | ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) | Android 35, Build Nativa       |
 | 2   | ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)             | Sem build Nativa                  |
  
 
 
 ### Comunicação:
-|     | Icone                         | Usado para:                                                                                                                                                                                             |
-| :-: | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|     | Icone                         | Usado para:    |
+| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2   | ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)          | Chamadas online para desenvolvimento de tarefas que necessitavam varios colaboradores, ou reuniões online    |
 | 3   | ![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)              | Comunicação via chat de mensagens e envio de documentos de um colaborador para o outro                       |
 
 
-### Tecnologias:
-![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
-![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+### Frameworks e mais:
+|     | Icone                         | Descrição:                     |
+| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) | Framework principal de desenvolvimento, transcreve a aplicação para código nativo, desenvolvimento simplificade e multi-plataforma  |
+| 2   | ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37) | Framework de apoio ao React Ntive, inclue bibliotecas extras, facilita emulação e testes entre outras funcionalidades  |
+| 3   | ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white) | Contole de ponto, metas, calendario   |
+| 4   | ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white) | Armazenamento dos artefatos do projeto (Prototipos, modelos, referencias, etc)      |
+
+
+
+
 ![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
