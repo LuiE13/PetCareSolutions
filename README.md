@@ -17,7 +17,7 @@
 
 |     | Icone                         | Usado para:                 |
 | :-: | :---------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
-| 1   | ![C](https://img.shields.io/badge/c-%23000000.svg?style=for-the-badge&logo=c&logoColor=white) | Programação do alimentador automatico          |
+| 1   | ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) | Programação do alimentador automatico          |
 | 2   | ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) | Desenvolvimento da API de comunicação com servidor, aplicação e alimentador    |
 | 3   | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) | Linguagem principal para o desenvolvimento do aplicativo    |
 
@@ -43,6 +43,8 @@
 | :-: | :---------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) | Desenvolvimento da aplicação e da API    |
 | 2   | ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white) | Gerenciamento das dependencias do Projeto |
+| 3   | ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white) | Automatiza os processos de build do app, e gerencia as dependencias do build android |
+| 4   | ![Arduino IDE](https://img.shields.io/badge/Arduino%20IDE-%2300979D.svg?style=for-the-badge&logo=Arduino&logoColor=white) | IDE para a codigo da placa ESP32 |
 
 
 ### Versionamento e organização:
@@ -78,14 +80,14 @@
 
 ### Frameworks e mais:
 |     | Icone                         | Descrição:                     |
-| :-: | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :-: | :---------------------------- | :----------------------------------------------- |
 | 1   | ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) | Framework principal de desenvolvimento, transcreve a aplicação para código nativo, desenvolvimento simplificade e multi-plataforma  |
 | 2   | ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37) | Framework de apoio ao React Ntive, inclue bibliotecas extras, facilita emulação e testes entre outras funcionalidades  |
-| 3   | ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white) | Contole de ponto, metas, calendario   |
-| 4   | ![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white) | Armazenamento dos artefatos do projeto (Prototipos, modelos, referencias, etc)      |
+| 3   | ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) | Permite o uso do javaScript no lado do servidor, utilizado no desenvolvimento da API |
+| 4   | ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) | Framework principal para o desenvolvimento da API, simplifica o desenvolvimento em HTTPs |
 
 
 
 
-![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+
+
