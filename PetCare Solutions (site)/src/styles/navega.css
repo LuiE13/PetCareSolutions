@@ -5,16 +5,22 @@ header {
 }
 
 #navega {
+    text-align: center;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+#navega .logo1 {
+    height: 35px;
+}
+
 #lisNavega {
     display: flex;
     list-style: none;
     gap: 40px;
+    justify-content: center;
 }
 
 .item-nav a {
@@ -24,59 +30,51 @@ header {
 }
 
 .item-nav.active a {
+    text-decoration: none;
     color: #625097;
     border-bottom: 3px solid #F2C438;
 }
 
+.btn-app {
+    text-decoration: none;
+}
+
+.navega a {
+    text-decoration: none;
+}
+
 #btn-mobile {
     display: none;
+        -webkit-tap-highlight-color: transparent;
 }
 
 #mobileMenu {
     display: none;
 }
 
-@media screen and (max-width: 1170px) {
-    #lisNavega,
-    #navega .btn-app {
-        display: none;
-    }
-    #btn-mobile {
-        display: block;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
+@media (max-width: 768px) {
+
+    /* deixa o header mais compacto */
+    header {
+        padding: 15px 5%;
     }
 
-    #mobileMenu.active{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #mobile_lisNavega {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin: 28px 0px;
-    }
-
-    #mobile_lisNavega .item-nav {
-        list-style: none;
-        text-align: center;
-    }
-
+    /* diminui o tamanho da logo */
     #navega .logo1 {
-    height: 45px;
-    }
-
-    #butMenu{
         height: 28px;
     }
-}
 
-@media screen and (max-width: 320px) {
-    #navega {
-        min-height: 100%;
+    /* some com o menu grande */
+    #lisNavega {
+        display: none;
     }
+
+    .btn-app {
+        margin-left: auto;       /* empurra tudo pra esquerda */
+        margin-right: 0;         /* encosta na direita */
+        font-size: 16px;
+        padding: 8px 15px;
+        border-radius: 8px;
+    }
+    
 }

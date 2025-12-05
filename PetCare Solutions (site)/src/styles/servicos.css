@@ -1,5 +1,5 @@
 #servicos {
-    height: 100vh;
+    height: 110vh;
     display: flex;
     flex-direction: row; 
     align-items: center; 
@@ -17,12 +17,12 @@
 }
 
 #gat h2 {
-    margin-bottom: 20px; 
+    margin-bottom: 40px; 
+    font-size: 50px;
 }
 
 #gat img {
-    max-height: 80vh;
-    width: auto;
+    width: 540px;
 }
 
 #servs {
@@ -31,13 +31,14 @@
     flex-direction: column; 
     justify-content: center;
     align-items: flex-start; 
-    gap: 30px; 
+    gap: 64px; 
+    margin-top: -65px;
 }
 
 .servBox {
     display: flex; 
     align-items: center; 
-    gap: 15px; 
+    gap: 19px; 
 }
 
 .servBox img {
@@ -47,6 +48,61 @@
 
 .servBox p,
 #servs > div:first-child p {
-    font-size: 18px;
+    font-size: 22px;
     margin: 0;
+    max-width: 530px;
+}
+
+@media (max-width: 768px) {
+
+    #servicos {
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 40px;
+        padding: 40px 5%;
+        text-align: center;
+    }
+
+    #gat {
+        order: 1;
+        width: 100%;
+    }
+
+    #gat h2 {
+        font-size: 38px;
+        margin-bottom: 20px;
+    }
+
+    #gat img {
+        width: 80%;       /* menor para não estourar */
+        max-width: 350px; /* limite visual top */
+        height: auto;
+    }
+
+    #servs {
+        order: 2;
+        width: 100%;
+        align-items: center;
+        gap: 40px;
+        margin-top: 0;
+    }
+
+    .servBox {
+        flex-direction: column; /* ícone em cima, texto embaixo */
+        gap: 12px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .servBox img {
+        width: 50px;
+    }
+
+    .servBox p,
+    #servs > div:first-child p {
+        font-size: 18px;
+        max-width: 90%;
+    }
 }

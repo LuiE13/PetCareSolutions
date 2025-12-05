@@ -1,10 +1,10 @@
 #premium {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 110vh;
     display: flex;
-    flex-direction: row; /* Coloca as divs #gat e #servs lado a lado */
-    align-items: center; /* Centraliza verticalmente */
+    flex-direction: row; 
+    align-items: center; 
     gap: 50px;
     background-color: #FE5F55;
 }
@@ -14,29 +14,80 @@
 }
 
 .oCome {
-    margin-right: 40px;
+    margin: auto;
 }
 
 #premium img {
-    height: 500px;
+    height: 640px;
 }
 
 #premium h2 {
     color: #EFEFEF;
+    max-width: 650px;
+    font-size: 65px;
 }
 
 #premium p {
     color: #EFEFEF;
     font-size: 20px;
+    max-width: 750px;
 }
 
 .val p{
     font-family: TT3;
     text-align: center;
-    font-size: large;
+    font-size: 40px;
 }
 
-#premium p span {
-    font-size: 100px;
+.val p span {
+    font-size: 140px;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+
+    #premium {
+        height: auto;
+        flex-direction: column;  /* empilha */
+        justify-content: center;
+        align-items: center;
+        padding: 40px 5%;
+        gap: 30px;
+        text-align: center;
+    }
+
+    #oTexto {
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #premium img {
+        height: auto;
+        width: 80%;
+        max-width: 380px;
+        margin-bottom: 20px;
+    }
+
+    #premium h2 {
+        font-size: 42px;
+        max-width: 100%;
+    }
+
+    #premium p {
+        font-size: 18px;
+        max-width: 100%;
+        line-height: 1.4;
+    }
+
+    /* VALORES */
+    .val p {
+        font-size: 28px;
+    }
+
+    .val p span {
+        font-size: 80px; /* reduzindo valor principal */
+    }
 }

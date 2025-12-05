@@ -2,11 +2,12 @@
     display: flex;
     align-items: center;           
     justify-content: space-between;
-    min-height: calc(100vh - 89px);
+    min-height: calc(110vh - 89px);
     width: 100%;
     gap: 20px;
     padding-left: 5%;
     padding-right: 0;
+    margin-bottom: 50px;
 }
 
 #texInicio {
@@ -14,11 +15,13 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 600px;
     justify-content: center;
 }
 
 #texInicio .title {
-    font-size: 55px;
+    font-size: 65px;
+    max-width: 600px;
     font-family: "Qilka";
     color: #EEBD2A;
 }
@@ -38,7 +41,7 @@
 
 .banner img {
     width: 100%;                  
-    max-width: 500px;             
+    max-width: 900px;             
     height: auto;
     object-fit: contain; 
     
@@ -51,64 +54,47 @@
 
 /* A parte responisiva aqui*/
 
-@media screen and (max-width: 1170px) {
+@media (max-width: 768px) {
+
     #home {
-        padding-top: 0;
-        margin: 0;
-        width: 100%;
-        align-items: center;
-        display: flex;
-        padding: 1px;
-        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start; /* NÃO centraliza */
+        padding-left: 5%;
+        padding-right: 0;
+        gap: 30px;
+        min-height: auto;
+        margin-bottom: 30px;
     }
 
     #texInicio {
         width: 100%;
-        text-align: center;
-        align-items: center;
+        max-width: 100%;
+        align-items: flex-start; /* texto alinhado à esquerda */
+        text-align: right;
     }
 
     #texInicio .title {
-        font-size: 38px;
+        font-size: 42px;
+        max-width: 90%;
+    }
+
+    #texInicio .apresentacao {
+        font-size: 20px;
+        max-width: 90%;
     }
 
     .banner {
-        display: none;
-    }
-
-    .ban2 {
-        background-image: url("../../img/meninoC2.svg");
         width: 100%;
-        height: 300px;
+        display: flex;
+        justify-content: flex-end; /* EMPURRA PRA DIREITA */
+        align-items: flex-end;
+        padding-right: 0;
     }
 
-    .apresentacao {
-        margin-top: 300px;
-    }  
-}
-
-/*Celulares menores*/
-@media screen and (max-width: 322px) {
-    #home {
-        padding-top: 0;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
+    .banner img {
+        width: 90%;        /* ocupa boa parte da direita */
+        max-width: none;   /* impede de limitar a largura */
+        object-fit: contain;
     }
-
-   .ban2 img {
-    display: none;
-   }
-
-    #texInicio .title {
-        font-size: 34px;
-    }
-
-    #texInicio .title {
-        font-size: 35px;
-    }
-
-    .apresentacao {
-        margin-top: 0px;
-    } 
 }

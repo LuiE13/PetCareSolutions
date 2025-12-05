@@ -1,13 +1,12 @@
 #sobre {
     display: flex;
-    min-height: 100vh;
+    min-height: 110vh;
     position: relative;
     padding-top: 0;
-    background-image: url("../../img/fundoAma1.svg");
+    background-image: url("../../img/fundocurvado.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    
 }
 
 .texSob {
@@ -54,55 +53,43 @@
 
 /* A parte responisiva aqui*/
 
-@media screen and (max-width: 1170px) {
+@media (max-width: 768px) {
+
     #sobre {
+        min-height: auto;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-size: 750%;
+        background-position: center;
         flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .texSob {
+        height: auto;
+        padding: 0 5%;
+        display: flex;
+        justify-content: center;
         align-items: center;
-        position: relative;
-    }
-
-    .fundo .cima{
-    width: 100%;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    }
-
-    .fundo .shape2 {
-    background-color: #EEBD2A;
-    width: 100%;
-    height: 900px;
-    position: absolute;
-    left: 0;
-    margin-top: 20px;
-    z-index: 1;
     }
 
     .funTex {
         width: 100%;
-        height: 80%;
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-        background-color: #EEBD2A;
+        height: auto;              /* deixa crescer conforme o conteúdo */
+        padding: 20px 10px;
+        border-radius: 16px;
+        box-shadow: 12px 12px 0px 0px;
     }
 
     .funTex h2 {
-        margin: 0px 0px  30px 0px;
-        color: #2E2935;
-        -webkit-text-stroke-width: 2px; /* Define a largura da borda */
-        -webkit-text-stroke-color: #EFEFEF;
+        font-size: 36px;           /* menor pro mobile */
+        margin: 20px 0;
+        -webkit-text-stroke-width: 2px;
     }
 
     .funTex p {
-        margin: 0;
-        color: #000000;
-    }
-
-    .funTex #a{
-    font-family: "TT2";
-    margin-bottom: 10px;
+        font-size: 20px;
+        margin: 10px 20px;
+        line-height: 1.4;
     }
 }
