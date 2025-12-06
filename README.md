@@ -5,11 +5,11 @@
 
 ## Integrantes
 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Anna Júlia do Prado](https://github.com/jujobs): Designer e programadora back-end do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Anna Júlia do Prado](https://github.com/jujobs): Designer e programadora front-end do projeto
 ### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Bia](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Carolina Valença](https://github.com/carolaxt): Designer e co-gestora do projeto
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [LuiE13](https://github.com/LuiE13): Programador back-end e engenheiro do projeto
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Wiko](https://github.com/Wikoooo): Gestora e engenheira principal do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Carolina Valença](https://github.com/carolaxt): Designer e gestora do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [LuiE13](https://github.com/LuiE13): Programador mobile e back-end do projeto
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [Wiko](https://github.com/Wikoooo): Co-gestora e desenvolvedora IoT do projeto
 
 ## Tecnologias:
 
