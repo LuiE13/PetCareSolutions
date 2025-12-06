@@ -1,6 +1,7 @@
 # PetCareSolutions
 
 ## Projeto de TCC do curso técnico em desenvolvimento de sistemas equipe 05
+### ![Meu QR Code](qrcode.png)
 ### [Intale o projeto](https://expo.dev/accounts/luie/projects/petCareSolutions/builds/015518cf-34b8-4a80-8e4b-4ffd9737ec29)
 
 ## Integrantes
