@@ -4,7 +4,7 @@
 
 ## Versão Android
 ### <img src="qrcode.png" alt="QR Code" width="200" height="200">
-### [Intale o projeto](https://expo.dev/accounts/luie/projects/petCareSolutions/builds/015518cf-34b8-4a80-8e4b-4ffd9737ec29)
+### [Intale o projeto]()
 
 ## Versão Ios
 Indisponível
