@@ -11,11 +11,11 @@ Indisponível
 
 ## Integrantes
 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jujobs): Designer e programadora front-end do projeto
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/carolaxt): Designer e gestora do projeto
-### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="30" height="30"> [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LuiE13): Programador mobile e back-end do projeto
-### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="20" height="20">](https://github.com/Wikoooo) Withorya Moreira: Co-gestora e desenvolvedora IoT do projeto
+### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="25" height="25"> Ana carolina](https://github.com/carolaxt): Designer e gestora do projeto
+### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="25" height="25"> Anna Julia)](https://github.com/jujobs): Designer e programadora front-end do projeto
+### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="25" height="25"> Beatriz Piacente](https://github.com/BiaOlivMar): Designer e programadora front-end do projeto 
+### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="25" height="25"> Luiz Eleuterio](https://github.com/LuiE13): Programador mobile e back-end do projeto
+### [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="25" height="25"> Withorya Moreira](https://github.com/Withorya) : Co-gestora e desenvolvedora IoT do projeto
 
 ## Tecnologias:
 
